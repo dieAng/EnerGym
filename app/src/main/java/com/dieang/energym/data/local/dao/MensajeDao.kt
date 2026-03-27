@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.dieang.energym.data.local.entity.MensajeEntity
 import com.dieang.energym.domain.model.Mensaje
 import java.util.UUID
 
@@ -19,5 +20,8 @@ interface MensajeDao {
     suspend fun getConversacion(u1: UUID, u2: UUID): List<Mensaje>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(mensaje: Mensaje)
+    suspend fun insertAll(series: List<MensajeEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(mensaje: MensajeEntity)
 }

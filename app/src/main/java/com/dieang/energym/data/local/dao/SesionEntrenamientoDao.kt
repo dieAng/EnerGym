@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.dieang.energym.data.local.entity.SesionEntrenamientoEntity
 import com.dieang.energym.domain.model.SesionEntrenamiento
 import java.util.UUID
 
@@ -18,8 +19,8 @@ interface SesionEntrenamientoDao {
     suspend fun getById(id: UUID): SesionEntrenamiento?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(sesion: SesionEntrenamiento)
+    suspend fun insert(sesionEntrenamiento: SesionEntrenamientoEntity)
 
     @Delete
-    suspend fun delete(sesion: SesionEntrenamiento)
+    suspend fun delete(sesionEntrenamiento: SesionEntrenamiento)
 }

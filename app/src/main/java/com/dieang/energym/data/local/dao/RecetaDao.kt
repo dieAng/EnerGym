@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.dieang.energym.data.local.entity.RecetaEntity
 import com.dieang.energym.domain.model.Receta
 import java.util.UUID
 
@@ -19,7 +20,7 @@ interface RecetaDao {
     suspend fun getById(id: UUID): Receta?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(receta: Receta)
+    suspend fun insert(receta: RecetaEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(recetas: List<Receta>)
@@ -28,5 +29,5 @@ interface RecetaDao {
     suspend fun update(receta: Receta)
 
     @Delete
-    suspend fun delete(receta: Receta)
+    suspend fun delete(receta: UUID)
 }

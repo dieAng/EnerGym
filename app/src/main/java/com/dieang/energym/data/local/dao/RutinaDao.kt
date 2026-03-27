@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.dieang.energym.data.local.entity.RutinaEntity
 import com.dieang.energym.domain.model.Rutina
 import java.util.UUID
 
@@ -18,11 +19,11 @@ interface RutinaDao {
     suspend fun getById(id: UUID): Rutina?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(rutina: Rutina)
+    suspend fun insert(rutina: RutinaEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(rutinas: List<Rutina>)
 
     @Delete
-    suspend fun delete(rutina: Rutina)
+    suspend fun delete(rutina: UUID)
 }
