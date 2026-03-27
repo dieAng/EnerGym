@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.dieang.energym.data.local.entity.EjercicioEntity
 import com.dieang.energym.domain.model.Ejercicio
 import java.util.UUID
 
@@ -22,7 +23,7 @@ interface EjercicioDao {
     suspend fun insert(ejercicio: Ejercicio)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(ejercicios: List<Ejercicio>)
+    suspend fun insertAll(ejercicios: List<EjercicioEntity>)
 
     @Update
     suspend fun update(ejercicio: Ejercicio)

@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.dieang.energym.data.local.entity.SerieRealizadaEntity
 import com.dieang.energym.domain.model.SerieRealizada
 import java.util.UUID
 
@@ -18,7 +19,7 @@ interface SerieRealizadaDao {
     suspend fun insert(serie: SerieRealizada)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(series: List<SerieRealizada>)
+    suspend fun insertAll(series: List<SerieRealizadaEntity>)
 
     @Delete
     suspend fun delete(serie: SerieRealizada)

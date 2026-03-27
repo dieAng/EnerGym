@@ -1,5 +1,6 @@
 package com.dieang.energym.domain.repository
 
+import com.dieang.energym.data.local.entity.UsuarioEntity
 import com.dieang.energym.data.remote.dto.request.UsuarioCreateRequestDto
 import com.dieang.energym.data.remote.dto.request.UsuarioUpdateRequestDto
 import com.dieang.energym.domain.model.Usuario
@@ -13,7 +14,7 @@ interface UsuarioRepository {
 
     suspend fun getUsuario(id: UUID): Usuario?
 
-    suspend fun createUsuario(request: UsuarioCreateRequestDto): Usuario
+    suspend fun createUsuario(request: UsuarioCreateRequestDto): UsuarioEntity
 
     suspend fun updateUsuario(id: UUID, request: UsuarioUpdateRequestDto)
 
