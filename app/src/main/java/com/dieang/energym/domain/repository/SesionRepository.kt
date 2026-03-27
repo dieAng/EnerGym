@@ -1,0 +1,19 @@
+package com.dieang.energym.domain.repository
+
+import com.dieang.energym.data.remote.dto.request.SerieRealizadaCreateRequestDto
+import com.dieang.energym.data.remote.dto.request.SesionCreateRequestDto
+import com.dieang.energym.domain.model.SesionEntrenamiento
+import java.util.UUID
+
+interface SesionRepository {
+
+    suspend fun syncSesiones()
+
+    suspend fun getSesiones(): List<SesionEntrenamiento>
+
+    suspend fun getSesion(id: UUID): SesionEntrenamiento?
+
+    suspend fun createSesion(request: SesionCreateRequestDto): SesionEntrenamiento
+
+    suspend fun addSerie(sesionId: UUID, request: SerieRealizadaCreateRequestDto)
+}
