@@ -1,10 +1,8 @@
 package com.dieang.energym.domain.model
 
-import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.UUID
 
-@Entity(tableName = "usuario")
 data class Usuario(
     @PrimaryKey val id: UUID = UUID.randomUUID(),
     val nombre: String,
