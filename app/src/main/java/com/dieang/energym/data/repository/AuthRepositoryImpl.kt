@@ -1,11 +1,16 @@
 package com.dieang.energym.data.repository
 
+import com.dieang.energym.data.local.datastore.TokenProvider
+import com.dieang.energym.data.local.datastore.UserStore
 import com.dieang.energym.data.local.entity.UsuarioEntity
 import com.dieang.energym.data.mappers.toEntity
 import com.dieang.energym.data.remote.api.AuthApi
+import com.dieang.energym.data.remote.dto.request.LoginRequestDto
+import com.dieang.energym.data.remote.dto.request.RefreshTokenRequestDto
 import com.dieang.energym.domain.model.Usuario
 import com.dieang.energym.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class AuthRepositoryImpl(
     private val api: AuthApi,
@@ -14,7 +19,7 @@ class AuthRepositoryImpl(
 ) : AuthRepository {
 
     override suspend fun login(email: String, password: String): UsuarioEntity {
-        val response = api.login(LoginRequest(email, password))
+        val response = api.login(LoginRequestDto(email, password))
 
         tokenStore.saveTokens(
             response.token,
@@ -31,7 +36,7 @@ class AuthRepositoryImpl(
         val refresh = tokenStore.getRefreshToken() ?: return false
 
         return try {
-            val response = api.refresh(RefreshTokenRequest(refresh))
+            val response = api.refresh(RefreshTokenRequestDto(refresh))
 
             tokenStore.saveTokens(
                 response.token,

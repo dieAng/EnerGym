@@ -19,6 +19,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        //noinspection WrongGradleMethod
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
@@ -81,4 +82,8 @@ dependencies {
     // 4. Navegación y ViewModels
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
+
+    // DataStore y Corrutinas
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.kotlinx.coroutines.android)
 }
