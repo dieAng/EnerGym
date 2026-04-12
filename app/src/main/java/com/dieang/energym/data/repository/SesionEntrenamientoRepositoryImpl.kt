@@ -11,7 +11,7 @@ import com.dieang.energym.domain.model.SesionEntrenamiento
 import com.dieang.energym.domain.repository.SesionEntrenamientoRepository
 import java.util.UUID
 
-class SesionEntrenamientoEntrenamientoRepositoryImpl(
+class SesionEntrenamientoRepositoryImpl(
     private val api: SesionEntrenamientoApi,
     private val dao: SesionEntrenamientoDao,
     private val serieDao: SerieRealizadaDao
