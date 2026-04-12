@@ -1,17 +1,21 @@
 package com.dieang.energym.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import com.dieang.energym.ui.feature.auth.AuthViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun AuthGuard(
-    authViewModel: AuthViewModel,
-    onAuthenticated: @Composable () -> Unit,
-    onUnauthenticated: @Composable () -> Unit
+    content: @Composable () -> Unit,
+    onNotLoggedIn: () -> Unit
 ) {
-    val state by authViewModel.state.collectAsState()
+    val vm: AuthViewModel = hiltViewModel()
+    val state = vm.state.collectAsState().value
 
-    when {
-        state.isLoggedIn -> onAuthenticated()
-        else -> onUnauthenticated()
+    if (state.isLoggedIn) {
+        content()
+    } else {
+        onNotLoggedIn()
     }
 }
