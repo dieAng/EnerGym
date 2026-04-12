@@ -1,5 +1,7 @@
 package com.dieang.energym.di
 
+import com.dieang.energym.core.network.AuthInterceptor
+import com.dieang.energym.core.network.RetrofitProvider
 import com.dieang.energym.data.local.datastore.TokenProvider
 import com.dieang.energym.data.remote.api.AuthApi
 import dagger.Module
@@ -15,33 +17,39 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    // 1. Interceptor
     @Provides
     @Singleton
     fun provideAuthInterceptor(
         tokenProvider: TokenProvider,
         authApi: AuthApi
-    ): AuthInterceptor = AuthInterceptor(tokenProvider, authApi)
+    ): AuthInterceptor =
+        AuthInterceptor(tokenProvider, authApi)
 
-    @Provides @Singleton
+    // 2. OkHttpClient usando RetrofitProvider
+    @Provides
+    @Singleton
     fun provideOkHttpClient(
-        authInterceptor: AuthInterceptor
+        interceptor: AuthInterceptor
     ): OkHttpClient =
-        OkHttpClient.Builder()
-            .addInterceptor(authInterceptor)
-            .build()
+        RetrofitProvider.createOkHttpClient(interceptor)
 
-    @Provides @Singleton
-    fun provideRetrofit(client: OkHttpClient): Retrofit =
-        Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:5000/")
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    // 3. Retrofit usando RetrofitProvider
+    @Provides
+    @Singleton
+    fun provideRetrofit(
+        client: OkHttpClient
+    ): Retrofit =
+        RetrofitProvider.createRetrofit(client)
 
-    @Provides @Singleton
-    fun provideAuthApi(retrofit: Retrofit): AuthApi =
+    // 4. AuthApi
+    @Provides
+    @Singleton
+    fun provideAuthApi(
+        retrofit: Retrofit
+    ): AuthApi =
         retrofit.create(AuthApi::class.java)
 
-    // Aquí agregas el resto de APIs:
-    // UsuarioApi, RecetaApi, RutinaApi, etc.
+    // 5. Aquí agregas el resto de APIs
+    // @Provides fun provideUsuarioApi(retrofit: Retrofit): UsuarioApi = retrofit.create(UsuarioApi::class.java)
 }
