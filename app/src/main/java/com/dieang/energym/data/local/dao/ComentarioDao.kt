@@ -6,14 +6,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.dieang.energym.data.local.entity.ComentarioEntity
-import com.dieang.energym.domain.model.Comentario
 import java.util.UUID
 
 @Dao
 interface ComentarioDao {
 
     @Query("SELECT * FROM comentario WHERE postId = :postId ORDER BY fecha ASC")
-    suspend fun getByPost(postId: UUID): List<Comentario>
+    suspend fun getByPost(postId: UUID): List<ComentarioEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(comentario: ComentarioEntity)
@@ -22,5 +21,5 @@ interface ComentarioDao {
     suspend fun insertAll(series: List<ComentarioEntity>)
 
     @Delete
-    suspend fun delete(comentario: Comentario)
+    suspend fun delete(comentario: ComentarioEntity)
 }
