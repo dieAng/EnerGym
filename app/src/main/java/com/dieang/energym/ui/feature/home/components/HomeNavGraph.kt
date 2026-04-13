@@ -6,18 +6,18 @@ import androidx.navigation.compose.composable
 import com.dieang.energym.ui.feature.home.HomeScreen
 import com.dieang.energym.ui.feature.home.HomeViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.dieang.energym.ui.navigation.Routes
 
 fun NavGraphBuilder.homeNavGraph(navController: NavController) {
-    composable("home") {
+    composable(Routes.HOME) {
         val vm: HomeViewModel = hiltViewModel()
-        val state = vm.state.collectAsState().value
-
         HomeScreen(
-            state = state,
+            state = vm.state.collectAsState().value,
             onEvent = vm::onEvent,
-            onNavigateRecetas = { navController.navigate("recetas") },
-            onNavigateRutinas = { navController.navigate("rutinas") },
-            onNavigateSesiones = { navController.navigate("sesiones") }
+            onNavigateRecetas = { navController.navigate(Routes.RECETAS) },
+            onNavigateRutinas = { navController.navigate(Routes.RUTINAS) },
+            onNavigateSesiones = { navController.navigate(Routes.SESIONES) }
         )
     }
 }
+
