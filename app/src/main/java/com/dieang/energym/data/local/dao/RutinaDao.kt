@@ -6,23 +6,22 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.dieang.energym.data.local.entity.RutinaEntity
-import com.dieang.energym.domain.model.Rutina
 import java.util.UUID
 
 @Dao
 interface RutinaDao {
 
     @Query("SELECT * FROM rutina")
-    suspend fun getAll(): List<Rutina>
+    suspend fun getAll(): List<RutinaEntity>
 
     @Query("SELECT * FROM rutina WHERE id = :id")
-    suspend fun getById(id: UUID): Rutina?
+    suspend fun getById(id: UUID): RutinaEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(rutina: RutinaEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(rutinas: List<Rutina>)
+    suspend fun insertAll(rutinas: List<RutinaEntity>)
 
     @Delete
     suspend fun delete(rutina: UUID)

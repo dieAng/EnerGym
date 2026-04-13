@@ -7,17 +7,16 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.dieang.energym.data.local.entity.UsuarioEntity
-import com.dieang.energym.domain.model.Usuario
 import java.util.UUID
 
 @Dao
 interface UsuarioDao {
 
     @Query("SELECT * FROM usuario")
-    suspend fun getAll(): List<Usuario>
+    suspend fun getAll(): List<UsuarioEntity>
 
     @Query("SELECT * FROM usuario WHERE id = :id")
-    suspend fun getById(id: UUID): Usuario?
+    suspend fun getById(id: UUID): UsuarioEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(usuario: UsuarioEntity)
@@ -26,7 +25,7 @@ interface UsuarioDao {
     suspend fun insertAll(usuarios: List<UsuarioEntity>)
 
     @Update
-    suspend fun update(usuario: Usuario)
+    suspend fun update(usuario: UsuarioEntity)
 
     @Delete
     suspend fun delete(usuario: UUID)

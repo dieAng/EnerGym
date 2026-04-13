@@ -1,0 +1,55 @@
+package com.dieang.energym.di
+
+import com.dieang.energym.core.network.AuthInterceptor
+import com.dieang.energym.core.network.RetrofitProvider
+import com.dieang.energym.data.local.datastore.TokenProvider
+import com.dieang.energym.data.remote.api.AuthApi
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
+
+    // 1. Interceptor
+    @Provides
+    @Singleton
+    fun provideAuthInterceptor(
+        tokenProvider: TokenProvider,
+        authApi: AuthApi
+    ): AuthInterceptor =
+        AuthInterceptor(tokenProvider, authApi)
+
+    // 2. OkHttpClient usando RetrofitProvider
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(
+        interceptor: AuthInterceptor
+    ): OkHttpClient =
+        RetrofitProvider.createOkHttpClient(interceptor)
+
+    // 3. Retrofit usando RetrofitProvider
+    @Provides
+    @Singleton
+    fun provideRetrofit(
+        client: OkHttpClient
+    ): Retrofit =
+        RetrofitProvider.createRetrofit(client)
+
+    // 4. AuthApi
+    @Provides
+    @Singleton
+    fun provideAuthApi(
+        retrofit: Retrofit
+    ): AuthApi =
+        retrofit.create(AuthApi::class.java)
+
+    // 5. Aquí agregas el resto de APIs
+    // @Provides fun provideUsuarioApi(retrofit: Retrofit): UsuarioApi = retrofit.create(UsuarioApi::class.java)
+}
