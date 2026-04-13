@@ -2,8 +2,12 @@ package com.dieang.energym.ui.navigation
 
 object Routes {
 
+    // SPLASH
+    const val SPLASH = "splash"
+
     // AUTH
     const val LOGIN = "login"
+    const val REGISTER = "register"
 
     // HOME
     const val HOME = "home"
