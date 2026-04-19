@@ -11,6 +11,7 @@ import com.dieang.energym.ui.feature.rutinas.components.rutinasNavGraph
 import com.dieang.energym.ui.feature.sesiones.components.sesionesNavGraph
 import com.dieang.energym.ui.feature.posts.components.postsNavGraph
 import com.dieang.energym.ui.feature.mensajes.components.mensajesNavGraph
+import com.dieang.energym.ui.feature.usuario.components.usuarioNavGraph
 
 @Composable
 fun AppNavHost(
@@ -55,6 +56,11 @@ fun AppNavHost(
         // Mensajes
         AuthGuard(navController) {
             mensajesNavGraph(navController)
+        }
+
+        // Perfil / Usuarios
+        AuthGuard(navController) {
+            usuarioNavGraph(navController)
         }
     }
 }

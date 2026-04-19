@@ -28,5 +28,5 @@ interface RecetaDao {
     suspend fun update(receta: RecetaEntity)
 
     @Delete
-    suspend fun delete(receta: UUID)
+    suspend fun delete(receta: RecetaEntity)
 }

@@ -11,6 +11,7 @@ fun PostResponseDto.toEntity() = PostEntity(
     usuarioId = usuarioId,
     contenido = contenido,
     imagenUrl = imagenUrl,
+    energiaGenerada = energiaGenerada,
     fecha = fecha
 )
 
@@ -20,5 +21,6 @@ fun PostCreateRequestDto.toEntity(generatedId: UUID) = PostEntity(
     usuarioId = usuarioId,
     contenido = contenido,
     imagenUrl = imagenUrl,
+    energiaGenerada = energiaGenerada ?: 0.0,
     fecha = System.currentTimeMillis()
 )

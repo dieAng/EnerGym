@@ -2,6 +2,7 @@ package com.dieang.energym.di
 
 import com.dieang.energym.data.local.dao.ComentarioDao
 import com.dieang.energym.data.local.dao.EjercicioDao
+import com.dieang.energym.data.local.dao.HistorialPesoDao
 import com.dieang.energym.data.local.dao.IngredienteDao
 import com.dieang.energym.data.local.dao.MensajeDao
 import com.dieang.energym.data.local.dao.PostDao
@@ -28,6 +29,7 @@ import com.dieang.energym.data.repository.ComentarioRepositoryImpl
 import com.dieang.energym.data.repository.EjercicioRepositoryImpl
 import com.dieang.energym.data.repository.IngredienteRepositoryImpl
 import com.dieang.energym.data.repository.MensajeRepositoryImpl
+import com.dieang.energym.data.repository.PesoRepositoryImpl
 import com.dieang.energym.data.repository.PostRepositoryImpl
 import com.dieang.energym.data.repository.RecetaRepositoryImpl
 import com.dieang.energym.data.repository.RutinaRepositoryImpl
@@ -38,6 +40,7 @@ import com.dieang.energym.domain.repository.ComentarioRepository
 import com.dieang.energym.domain.repository.EjercicioRepository
 import com.dieang.energym.domain.repository.IngredienteRepository
 import com.dieang.energym.domain.repository.MensajeRepository
+import com.dieang.energym.domain.repository.PesoRepository
 import com.dieang.energym.domain.repository.PostRepository
 import com.dieang.energym.domain.repository.RecetaRepository
 import com.dieang.energym.domain.repository.RutinaRepository
@@ -118,4 +121,9 @@ object RepositoryModule {
         api: MensajeApi,
         dao: MensajeDao
     ): MensajeRepository = MensajeRepositoryImpl(api, dao)
+
+    @Provides @Singleton
+    fun providePesoRepository(
+        dao: HistorialPesoDao
+    ): PesoRepository = PesoRepositoryImpl(dao)
 }

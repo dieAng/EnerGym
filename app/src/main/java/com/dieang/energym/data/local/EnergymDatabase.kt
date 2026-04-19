@@ -19,9 +19,10 @@ import com.dieang.energym.data.local.entity.*
         MensajeEntity::class,
         PostEntity::class,
         LikePostEntity::class,
-        ComentarioEntity::class
+        ComentarioEntity::class,
+        HistorialPesoEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -39,5 +40,6 @@ abstract class EnerGymDatabase : RoomDatabase() {
     abstract fun serieRealizadaDao(): SerieRealizadaDao
     abstract fun sesionEntrenamientoDao(): SesionEntrenamientoDao
     abstract fun usuarioDao(): UsuarioDao
+    abstract fun historialPesoDao(): HistorialPesoDao
 
 }

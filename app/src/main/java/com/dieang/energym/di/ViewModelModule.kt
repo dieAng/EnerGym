@@ -1,6 +1,7 @@
 package com.dieang.energym.di
 
 import com.dieang.energym.domain.usecase.auth.GetLoggedUserUseCase
+import com.dieang.energym.domain.usecase.auth.IsUserLoggedInUseCase
 import com.dieang.energym.domain.usecase.auth.LoginUserUseCase
 import com.dieang.energym.domain.usecase.auth.LogoutUserUseCase
 import com.dieang.energym.domain.usecase.comentarios.AddComentarioUseCase
@@ -13,6 +14,7 @@ import com.dieang.energym.domain.usecase.mensajes.EnviarMensajeUseCase
 import com.dieang.energym.domain.usecase.mensajes.GetConversacionUseCase
 import com.dieang.energym.domain.usecase.posts.AddComentarioToPostUseCase
 import com.dieang.energym.domain.usecase.posts.CreatePostUseCase
+import com.dieang.energym.domain.usecase.posts.GetComentariosByPostUseCase
 import com.dieang.energym.domain.usecase.posts.GetPostsUseCase
 import com.dieang.energym.domain.usecase.posts.LikePostUseCase
 import com.dieang.energym.domain.usecase.recetas.CreateRecetaUseCase
@@ -22,13 +24,16 @@ import com.dieang.energym.domain.usecase.recetas.GetRecetasUseCase
 import com.dieang.energym.domain.usecase.recetas.UpdateRecetaUseCase
 import com.dieang.energym.domain.usecase.rutinas.CreateRutinaUseCase
 import com.dieang.energym.domain.usecase.rutinas.DeleteRutinaUseCase
+import com.dieang.energym.domain.usecase.rutinas.GetRutinaEjerciciosUseCase
 import com.dieang.energym.domain.usecase.rutinas.GetRutinaUseCase
 import com.dieang.energym.domain.usecase.rutinas.GetRutinasUseCase
 import com.dieang.energym.domain.usecase.sesiones.AddSerieUseCase
 import com.dieang.energym.domain.usecase.sesiones.CreateSesionUseCase
 import com.dieang.energym.domain.usecase.sesiones.GetSesionesUseCase
+import com.dieang.energym.domain.usecase.sesiones.SaveSesionUseCase
 import com.dieang.energym.domain.usecase.usuario.CreateUsuarioUseCase
 import com.dieang.energym.domain.usecase.usuario.DeleteUsuarioUseCase
+import com.dieang.energym.domain.usecase.usuario.GetEstadisticasUsuarioUseCase
 import com.dieang.energym.domain.usecase.usuario.GetUsuarioUseCase
 import com.dieang.energym.domain.usecase.usuario.GetUsuariosUseCase
 import com.dieang.energym.domain.usecase.usuario.UpdateUsuarioUseCase
@@ -41,6 +46,7 @@ import com.dieang.energym.ui.feature.posts.PostViewModel
 import com.dieang.energym.ui.feature.recetas.RecetaViewModel
 import com.dieang.energym.ui.feature.rutinas.RutinaViewModel
 import com.dieang.energym.ui.feature.sesiones.SesionViewModel
+import com.dieang.energym.ui.feature.splash.SplashViewModel
 import com.dieang.energym.ui.feature.usuario.UsuarioViewModel
 import dagger.Module
 import dagger.Provides
@@ -61,23 +67,21 @@ object ViewModelModule {
 
     @Provides
     fun provideUsuarioViewModel(
-        getUsuarios: GetUsuariosUseCase,
-        getUsuario: GetUsuarioUseCase,
-        createUsuario: CreateUsuarioUseCase,
+        getLoggedUser: GetLoggedUserUseCase,
+        getSesiones: GetSesionesUseCase,
         updateUsuario: UpdateUsuarioUseCase,
-        deleteUsuario: DeleteUsuarioUseCase
+        getEstadisticas: GetEstadisticasUsuarioUseCase,
+        logoutUser: LogoutUserUseCase
     ): UsuarioViewModel =
-        UsuarioViewModel(getUsuarios, getUsuario, createUsuario, updateUsuario, deleteUsuario)
+        UsuarioViewModel(getLoggedUser, getSesiones, updateUsuario, getEstadisticas, logoutUser)
 
     @Provides
     fun provideRecetaViewModel(
         getRecetas: GetRecetasUseCase,
         getReceta: GetRecetaUseCase,
-        createReceta: CreateRecetaUseCase,
-        updateReceta: UpdateRecetaUseCase,
-        deleteReceta: DeleteRecetaUseCase
+        getIngredientes: GetIngredientesByRecetaUseCase
     ): RecetaViewModel =
-        RecetaViewModel(getRecetas, getReceta, createReceta, updateReceta, deleteReceta)
+        RecetaViewModel(getRecetas, getReceta, getIngredientes)
 
     @Provides
     fun provideIngredienteViewModel(
@@ -90,10 +94,9 @@ object ViewModelModule {
     fun provideRutinaViewModel(
         getRutinas: GetRutinasUseCase,
         getRutina: GetRutinaUseCase,
-        createRutina: CreateRutinaUseCase,
-        deleteRutina: DeleteRutinaUseCase
+        getRutinaEjercicios: GetRutinaEjerciciosUseCase
     ): RutinaViewModel =
-        RutinaViewModel(getRutinas, getRutina, createRutina, deleteRutina)
+        RutinaViewModel(getRutinas, getRutina, getRutinaEjercicios)
 
     @Provides
     fun provideEjercicioViewModel(
@@ -104,20 +107,26 @@ object ViewModelModule {
 
     @Provides
     fun provideSesionViewModel(
-        getSesiones: GetSesionesUseCase,
+        getRutina: GetRutinaUseCase,
+        getRutinaEjercicios: GetRutinaEjerciciosUseCase,
         createSesion: CreateSesionUseCase,
-        addSerie: AddSerieUseCase
+        addSerie: AddSerieUseCase,
+        saveSesion: SaveSesionUseCase,
+        getLoggedUser: GetLoggedUserUseCase,
+        createPost: CreatePostUseCase
     ): SesionViewModel =
-        SesionViewModel(getSesiones, createSesion, addSerie)
+        SesionViewModel(getRutina, getRutinaEjercicios, createSesion, addSerie, saveSesion, getLoggedUser, createPost)
 
     @Provides
     fun providePostViewModel(
         getPosts: GetPostsUseCase,
         createPost: CreatePostUseCase,
         likePost: LikePostUseCase,
-        addComentario: AddComentarioToPostUseCase
+        getComentariosByPost: GetComentariosByPostUseCase,
+        addComentario: AddComentarioToPostUseCase,
+        getSesiones: GetSesionesUseCase
     ): PostViewModel =
-        PostViewModel(getPosts, createPost, likePost, addComentario)
+        PostViewModel(getPosts, createPost, likePost, getComentariosByPost, addComentario, getSesiones)
 
     @Provides
     fun provideComentarioViewModel(
@@ -129,7 +138,14 @@ object ViewModelModule {
     @Provides
     fun provideMensajeViewModel(
         getConversacion: GetConversacionUseCase,
-        enviarMensaje: EnviarMensajeUseCase
+        getLoggedUser: GetLoggedUserUseCase,
+        getUsuarios: GetUsuariosUseCase
     ): MensajeViewModel =
-        MensajeViewModel(getConversacion, enviarMensaje)
+        MensajeViewModel(getConversacion, getLoggedUser, getUsuarios)
+
+    @Provides
+    fun provideSplashViewModel(
+        isUserLoggedIn: IsUserLoggedInUseCase
+    ): SplashViewModel =
+        SplashViewModel(isUserLoggedIn)
 }

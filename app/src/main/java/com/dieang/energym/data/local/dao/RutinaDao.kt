@@ -24,5 +24,5 @@ interface RutinaDao {
     suspend fun insertAll(rutinas: List<RutinaEntity>)
 
     @Delete
-    suspend fun delete(rutina: UUID)
+    suspend fun delete(rutina: RutinaEntity)
 }
