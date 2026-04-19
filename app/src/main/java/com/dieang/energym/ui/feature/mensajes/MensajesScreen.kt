@@ -1,50 +1,164 @@
 package com.dieang.energym.ui.feature.mensajes
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import java.util.UUID
+import androidx.compose.ui.unit.sp
+import com.dieang.energym.ui.theme.NeonGreen
+import com.dieang.energym.ui.theme.TextGray
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
 fun MensajesScreen(
     state: MensajeState,
-    onRefresh: () -> Unit,
-    onSelectChat: (UUID, UUID) -> Unit
+    onLoad: () -> Unit,
+    onChatClick: (UUID) -> Unit
 ) {
-    LaunchedEffect(Unit) { onRefresh() }
+    LaunchedEffect(Unit) {
+        onLoad()
+    }
 
-    Column(Modifier.fillMaxSize()) {
-        Text("Mensajes", style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(16.dp))
+    Scaffold(
+        topBar = {
+            Column(Modifier.padding(horizontal = 24.dp, vertical = 20.dp)) {
+                Text(
+                    text = "Mensajes",
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = (-1).sp
+                    )
+                )
+                Text(
+                    text = "Conecta con otros atletas",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = TextGray
+                )
+            }
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
+            // Buscador (Simulado)
+            OutlinedTextField(
+                value = "",
+                onValueChange = {},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp, vertical = 8.dp),
+                placeholder = { Text("Buscar atleta...", color = TextGray) },
+                leadingIcon = {
+                    Icon(
+                        Icons.Default.Search,
+                        contentDescription = null,
+                        tint = TextGray
+                    )
+                },
+                shape = RoundedCornerShape(16.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface
+                )
+            )
 
-        if (state.isLoading) CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
+            Spacer(Modifier.height(16.dp))
 
-        LazyColumn {
-            items(state.mensajes) { mensaje ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                        .clickable { onSelectChat(mensaje.emisorId, mensaje.receptorId) }
+            if (state.isLoading) {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator(color = NeonGreen)
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(bottom = 80.dp)
                 ) {
-                    Column(Modifier.padding(16.dp)) {
-                        Text("De: ${mensaje.emisorNombre}", style = MaterialTheme.typography.titleMedium)
-                        Text(mensaje.texto)
+                    items(state.chats) { chat ->
+                        ChatItem(chat = chat, onClick = { onChatClick(chat.contactoId) })
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 24.dp),
+                            color = TextGray.copy(alpha = 0.1f)
+                        )
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+fun ChatItem(chat: ChatPreview, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 24.dp, vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(56.dp)
+                .clip(CircleShape)
+                .background(NeonGreen.copy(alpha = 0.1f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = chat.nombreContacto.take(1).uppercase(),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Black,
+                color = NeonGreen
+            )
+        }
+
+        Spacer(Modifier.width(16.dp))
+
+        Column(modifier = Modifier.weight(1f)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = chat.nombreContacto,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = formatTime(chat.fecha),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = TextGray
+                )
+            }
+            Text(
+                text = chat.ultimoMensaje,
+                style = MaterialTheme.typography.bodyMedium,
+                color = TextGray,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
+fun formatTime(timestamp: Long): String {
+    val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+    return sdf.format(Date(timestamp))
 }

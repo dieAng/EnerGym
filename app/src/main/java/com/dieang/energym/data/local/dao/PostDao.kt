@@ -17,6 +17,15 @@ interface PostDao {
     @Query("SELECT * FROM post WHERE id = :id")
     suspend fun getById(id: UUID): PostEntity?
 
+    @Query("SELECT * FROM post WHERE sincronizado = 0")
+    suspend fun getNoSincronizados(): List<PostEntity>
+
+    @Query("DELETE FROM post WHERE sincronizado = 1 AND fecha < :timestamp")
+    suspend fun deleteOldSynchronized(timestamp: Long)
+
+    @Query("DELETE FROM post WHERE id NOT IN (SELECT id FROM post ORDER BY fecha DESC LIMIT :limit)")
+    suspend fun keepOnlyLatest(limit: Int)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(post: PostEntity)
 

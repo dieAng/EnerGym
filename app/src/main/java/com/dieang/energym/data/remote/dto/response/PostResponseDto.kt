@@ -7,6 +7,7 @@ data class PostResponseDto(
     val usuarioId: UUID,
     val contenido: String?,
     val imagenUrl: String?,
+    val energiaGenerada: Double,
     val fecha: Long,
     val likes: Int,
     val comentarios: List<ComentarioResponseDto>

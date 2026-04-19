@@ -29,5 +29,6 @@ data class MensajeEntity(
     val emisorId: UUID,
     val receptorId: UUID,
     val contenido: String,
-    val fecha: Long
+    val fecha: Long,
+    val sincronizado: Boolean = false
 )

@@ -1,5 +1,6 @@
 package com.dieang.energym.core.network
 
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 import com.dieang.energym.data.local.datastore.TokenProvider
@@ -34,9 +35,11 @@ class AuthInterceptor(
             }
 
             return try {
-                val refreshResponse = authApi.refresh(
-                    RefreshTokenRequestDto(refreshToken)
-                )
+                val refreshResponse = runBlocking {
+                    authApi.refresh(
+                        RefreshTokenRequestDto(refreshToken)
+                    )
+                }
 
                 tokenProvider.saveTokens(
                     refreshResponse.token,

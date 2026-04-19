@@ -21,6 +21,9 @@ interface MensajeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(series: List<MensajeEntity>)
 
+    @Query("SELECT * FROM mensaje WHERE sincronizado = 0")
+    suspend fun getNoSincronizados(): List<MensajeEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(mensaje: MensajeEntity)
 }

@@ -16,5 +16,7 @@ interface SesionEntrenamientoRepository {
 
     suspend fun createSesion(request: SesionCreateRequestDto): SesionEntrenamientoEntity
 
+    suspend fun saveSesionLocal(sesion: SesionEntrenamientoEntity)
+
     suspend fun addSerie(sesionId: UUID, request: SerieRealizadaCreateRequestDto)
 }

@@ -28,5 +28,5 @@ interface UsuarioDao {
     suspend fun update(usuario: UsuarioEntity)
 
     @Delete
-    suspend fun delete(usuario: UUID)
+    suspend fun delete(usuario: UsuarioEntity)
 }
