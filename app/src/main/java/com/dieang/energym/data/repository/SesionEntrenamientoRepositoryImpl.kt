@@ -30,10 +30,10 @@ class SesionEntrenamientoRepositoryImpl(
     }
 
     override suspend fun getSesiones(): List<SesionEntrenamiento> =
-        dao.getAll().map { it.toDomain() }
+        dao.getAll().map { it.toDomain() }.map { it.toDomain() }
 
     override suspend fun getSesion(id: UUID): SesionEntrenamiento? =
-        dao.getById(id)?.toDomain()
+        dao.getById(id)?.toDomain()?.toDomain()
 
     override suspend fun createSesion(request: SesionCreateRequestDto): SesionEntrenamientoEntity {
         // 1. Crear entidad local (Offline First)
@@ -55,8 +55,8 @@ class SesionEntrenamientoRepositoryImpl(
         } catch (e: Exception) {
             // Se sincronizará luego por el SyncWorker
         }
-        
-        return entity
+
+        return entity.toDomain()
     }
 
     override suspend fun saveSesionLocal(sesion: SesionEntrenamientoEntity) {
@@ -74,3 +74,4 @@ class SesionEntrenamientoRepositoryImpl(
         api.addSerie(sesionId, request)
     }
 }
+

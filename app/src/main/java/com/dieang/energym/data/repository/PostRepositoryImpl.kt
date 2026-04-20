@@ -3,6 +3,7 @@ package com.dieang.energym.data.repository
 import com.dieang.energym.data.local.dao.ComentarioDao
 import com.dieang.energym.data.local.dao.PostDao
 import com.dieang.energym.data.local.entity.PostEntity
+import com.dieang.energym.data.mappers.toDomain
 import com.dieang.energym.data.mappers.toEntity
 import com.dieang.energym.data.remote.api.PostApi
 import com.dieang.energym.data.remote.dto.request.ComentarioCreateRequestDto
@@ -29,9 +30,9 @@ class PostRepositoryImpl(
     }
 
     override suspend fun getPosts(): List<Post> =
-        dao.getAll()
+        dao.getAll().map { it.toDomain() }
 
-    override suspend fun createPost(request: PostCreateRequestDto): PostEntity {
+    override suspend fun createPost(request: PostCreateRequestDto): Post {
         // 1. Guardar localmente primero (Offline First)
         val entity = PostEntity(
             usuarioId = request.usuarioId,
@@ -53,7 +54,7 @@ class PostRepositoryImpl(
             // No lanzamos excepción para que la UI no se bloquee
         }
 
-        return entity
+        return entity.toDomain()
     }
 
     override suspend fun likePost(postId: UUID, usuarioId: UUID) {
@@ -64,3 +65,4 @@ class PostRepositoryImpl(
         api.addComentario(postId, request)
     }
 }
+

@@ -36,30 +36,3 @@ val PrimaryGradient = listOf(EnerGymBlue, EnerGymPurple)
 val SuccessGradient = listOf(EnerGymGreen, Color(0xFF00E676))
 val WarningGradient = listOf(EnerGymOrange, Color(0xFFFFAB40))
 val AchievementGradient = listOf(Color(0xFFFFD700), Color(0xFFFF9500))
-
-// Colores EnerGym (Figma - Basado en capturas)
-val EnerGymBlue = Color(0xFF1D5DFF) // Azul principal de botones y acentos
-val EnerGymLightBlue = Color(0xFFE8F0FF) // Fondo de tarjetas azules suaves
-val EnerGymGreen = Color(0xFF00C566) // Verde de racha semanal
-val EnerGymLightGreen = Color(0xFFE5F9F0) // Fondo de tarjetas verdes suaves
-val EnerGymPurple = Color(0xFF8B5CF6) // Para gradientes
-val EnerGymOrange = Color(0xFFFF9500) // Para rachas de fuego
-val EnerGymLightOrange = Color(0xFFFFF7E6) // Fondo racha fuego
-
-val EnerGymBackground = Color(0xFFF8FAFC) // Fondo grisáceo muy claro de la app
-val EnerGymSurface = Color(0xFFFFFFFF) // Blanco puro para tarjetas
-val EnerGymTextPrimary = Color(0xFF1E293B) // Azul oscuro casi negro para texto principal
-val EnerGymTextSecondary = Color(0xFF64748B) // Gris para texto secundario
-val EnerGymDivider = Color(0xFFE2E8F0) // Color de bordes y divisores
-
-val EnerGymDarkBackground = Color(0xFF0A0A0A) // Fondo oscuro profundo para efectos neón
-
-val ElectricBlue = Color(0xFF1D5DFF)
-val NeonGreen = Color(0xFF00C566)
-val TextGray = Color(0xFF64748B)
-
-// Gradientes
-val PrimaryGradient = listOf(EnerGymBlue, EnerGymPurple)
-val SuccessGradient = listOf(EnerGymGreen, Color(0xFF00E676))
-val WarningGradient = listOf(EnerGymOrange, Color(0xFFFFAB40))
-val AchievementGradient = listOf(Color(0xFFFFD700), Color(0xFFFF9500))

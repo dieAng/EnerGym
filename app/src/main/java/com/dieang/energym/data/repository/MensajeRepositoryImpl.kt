@@ -2,6 +2,7 @@ package com.dieang.energym.data.repository
 
 import com.dieang.energym.data.local.dao.MensajeDao
 import com.dieang.energym.data.local.entity.MensajeEntity
+import com.dieang.energym.data.mappers.toDomain
 import com.dieang.energym.data.mappers.toEntity
 import com.dieang.energym.data.remote.api.MensajeApi
 import com.dieang.energym.data.remote.dto.request.MensajeCreateRequestDto
@@ -26,6 +27,7 @@ class MensajeRepositoryImpl(
         val response = api.enviarMensaje(request)
         val entity = response.toEntity()
         dao.insert(entity)
-        return entity
+        return entity.toDomain()
     }
 }
+

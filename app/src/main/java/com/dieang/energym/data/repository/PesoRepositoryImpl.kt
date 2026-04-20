@@ -18,3 +18,5 @@ class PesoRepositoryImpl @Inject constructor(
         pesoDao.insertPeso(HistorialPesoEntity(usuarioId = usuarioId, peso = peso, fecha = fecha))
     }
 }
+
+

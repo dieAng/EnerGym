@@ -28,3 +28,5 @@ class SerieRealizadaRepositoryImpl @Inject constructor(
         return dao.getVolumenTotalUsuario(usuarioId) ?: 0f
     }
 }
+
+

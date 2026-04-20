@@ -22,3 +22,4 @@ class ComentarioRepositoryImpl(
         dao.insert(response.toEntity(postId))
     }
 }
+
