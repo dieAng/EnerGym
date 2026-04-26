@@ -26,6 +26,9 @@ import com.dieang.energym.ui.theme.ElectricBlue
 import com.dieang.energym.ui.theme.NeonGreen
 import com.dieang.energym.ui.theme.TextGray
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
+
 @Composable
 fun LoginScreen(
     state: AuthState,
@@ -195,5 +198,18 @@ fun LoginScreen(
                 Text(it, color = Color.Red, style = MaterialTheme.typography.bodySmall)
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun LoginScreenPreview() {
+    EnerGymTheme {
+        LoginScreen(
+            state = AuthState(),
+            onLogin = { _, _ -> },
+            onSuccess = {},
+            onNavigateToRegister = {}
+        )
     }
 }

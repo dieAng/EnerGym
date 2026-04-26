@@ -25,6 +25,9 @@ import com.dieang.energym.ui.theme.ElectricBlue
 import com.dieang.energym.ui.theme.NeonGreen
 import com.dieang.energym.ui.theme.TextGray
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
+
 @Composable
 fun RegisterScreen(
     state: AuthState,
@@ -204,5 +207,17 @@ fun RegisterScreen(
 
             Spacer(Modifier.height(40.dp))
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RegisterScreenPreview() {
+    EnerGymTheme {
+        RegisterScreen(
+            state = AuthState(),
+            onRegister = { _, _, _ -> },
+            onNavigateLogin = {}
+        )
     }
 }
