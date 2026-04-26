@@ -24,6 +24,9 @@ import com.dieang.energym.ui.theme.NeonGreen
 import com.dieang.energym.ui.theme.TextGray
 import java.util.UUID
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PostDetailScreen(
@@ -129,6 +132,42 @@ fun PostDetailScreen(
                 item { Spacer(Modifier.height(32.dp)) }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PostDetailScreenPreview() {
+    val postId = UUID.randomUUID()
+    val userId = UUID.randomUUID()
+    EnerGymTheme {
+        PostDetailScreen(
+            postId = postId,
+            usuarioId = userId,
+            state = PostState(
+                postSeleccionado = PostUI(
+                    id = postId,
+                    usuarioId = UUID.randomUUID(),
+                    usuarioNombre = "Carlos Ruiz",
+                    usuarioFotoUrl = null,
+                    tiempoHace = "2h",
+                    contenido = "¡Nuevo récord en Press de Banca! La energía generada hoy ha sido increíble.",
+                    tipoPost = TipoPost.Record("Press de Banca", "100 kg x 5", "+5 kg"),
+                    energiaWh = 85,
+                    numLikes = 12,
+                    numComentarios = 2,
+                    isLiked = true
+                ),
+                comentarios = listOf(
+                    Comentario(id = UUID.randomUUID(), postId = postId, usuarioId = UUID.randomUUID(), contenido = "¡Qué grande! Enhorabuena.", fecha = System.currentTimeMillis()),
+                    Comentario(id = UUID.randomUUID(), postId = postId, usuarioId = UUID.randomUUID(), contenido = "Increíble progreso, a seguir dándole.", fecha = System.currentTimeMillis())
+                )
+            ),
+            onLoad = {},
+            onLike = {},
+            onComment = { _, _, _ -> },
+            onBack = {}
+        )
     }
 }
 

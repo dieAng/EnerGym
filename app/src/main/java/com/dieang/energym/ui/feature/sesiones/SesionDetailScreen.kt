@@ -20,12 +20,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.dieang.energym.domain.model.RutinaEjercicio
 import com.dieang.energym.domain.model.SerieRealizada
 import com.dieang.energym.ui.theme.ElectricBlue
 import com.dieang.energym.ui.theme.NeonGreen
 import com.dieang.energym.ui.theme.TextGray
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
+import com.dieang.energym.domain.model.Rutina
 import java.util.*
 
 @Composable
@@ -221,7 +223,7 @@ fun ExerciseTrackingCard(
             }
 
             if (seriesCompletadas.size < ejercicio.series) {
-                Divider(Modifier.padding(vertical = 12.dp), color = TextGray.copy(alpha = 0.1f))
+                HorizontalDivider(Modifier.padding(vertical = 12.dp), color = TextGray.copy(alpha = 0.1f))
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -270,4 +272,38 @@ fun formatTime(seconds: Long): String {
     val m = (seconds % 3600) / 60
     val s = seconds % 60
     return if (h > 0) String.format("%02d:%02d:%02d", h, m, s) else String.format("%02d:%02d", m, s)
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SesionDetailScreenPreview() {
+    val rutinaId = UUID.randomUUID()
+    val userId = UUID.randomUUID()
+    val ejercicio1Id = UUID.randomUUID()
+    
+    EnerGymTheme {
+        SesionDetailScreen(
+            rutinaId = rutinaId,
+            usuarioId = userId,
+            state = SesionState(
+                activeRutina = Rutina(id = rutinaId, usuarioId = userId, nombre = "Empuje (Push Day)", descripcion = "", nivel = "Intermedio", objetivo = "Fuerza"),
+                ejercicios = listOf(
+                    RutinaEjercicio(rutinaId = rutinaId, ejercicioId = ejercicio1Id, series = 4, repeticiones = 10, pesoObjetivo = 60f, descansoSeg = 90, orden = 0),
+                    RutinaEjercicio(rutinaId = rutinaId, ejercicioId = UUID.randomUUID(), series = 3, repeticiones = 12, pesoObjetivo = 40f, descansoSeg = 60, orden = 1)
+                ),
+                seriesCompletadas = mapOf(
+                    ejercicio1Id to listOf(
+                        SerieRealizada(id = UUID.randomUUID(), sesionId = UUID.randomUUID(), ejercicioId = ejercicio1Id, repeticiones = 10, peso = 60f),
+                        SerieRealizada(id = UUID.randomUUID(), sesionId = UUID.randomUUID(), ejercicioId = ejercicio1Id, repeticiones = 8, peso = 60f)
+                    )
+                ),
+                tiempoTranscurrido = 1500,
+                energiaGenerada = 3.5
+            ),
+            onStart = { _, _ -> },
+            onRegisterSerie = { _, _, _ -> },
+            onFinish = {},
+            onBack = {}
+        )
+    }
 }

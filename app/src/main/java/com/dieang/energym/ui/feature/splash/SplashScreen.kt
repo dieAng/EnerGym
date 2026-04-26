@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
+
 @Composable
 fun SplashScreen(
     state: SplashState,
@@ -28,5 +31,18 @@ fun SplashScreen(
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SplashScreenPreview() {
+    EnerGymTheme {
+        SplashScreen(
+            state = SplashState(),
+            onEvent = {},
+            onNavigateToLogin = {},
+            onNavigateToHome = {}
+        )
     }
 }

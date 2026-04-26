@@ -23,6 +23,9 @@ import androidx.compose.ui.unit.sp
 import com.dieang.energym.ui.theme.*
 import java.util.UUID
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
+
 @Composable
 fun RutinasScreen(
     state: RutinaState,
@@ -199,5 +202,40 @@ fun RutinaListItem(rutina: RutinaUI, onClick: () -> Unit) {
                 tint = EnerGymDivider
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RutinasScreenPreview() {
+    EnerGymTheme {
+        RutinasScreen(
+            state = RutinaState(
+                rutinas = listOf(
+                    RutinaUI(
+                        id = UUID.randomUUID(),
+                        nombre = "Empuje (Push Day)",
+                        numEjercicios = 8,
+                        ultimaVez = "2 días",
+                        nivel = "Intermedio"
+                    ),
+                    RutinaUI(
+                        id = UUID.randomUUID(),
+                        nombre = "Tracción (Pull Day)",
+                        numEjercicios = 7,
+                        ultimaVez = "3 días",
+                        nivel = "Avanzado"
+                    ),
+                    RutinaUI(
+                        id = UUID.randomUUID(),
+                        nombre = "Pierna y Core",
+                        numEjercicios = 9,
+                        ultimaVez = "5 días",
+                        nivel = "Básico"
+                    )
+                )
+            ),
+            onNavigateDetail = {}
+        )
     }
 }

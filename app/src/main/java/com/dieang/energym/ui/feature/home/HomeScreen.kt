@@ -22,6 +22,9 @@ import com.dieang.energym.ui.feature.home.components.*
 import com.dieang.energym.ui.theme.EnerGymBlue
 import com.dieang.energym.ui.theme.EnerGymTextPrimary
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
+
 @Composable
 fun HomeScreen(
     state: HomeState,
@@ -170,5 +173,31 @@ fun AddPesoDialog(onDismiss: () -> Unit, onSubmit: (Float) -> Unit) {
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun HomeScreenPreview() {
+    EnerGymTheme {
+        HomeScreen(
+            state = HomeState(
+                nombreUsuario = "Diego",
+                rachaActual = 7,
+                entrenamientosSemana = "3/5",
+                entrenamientoHoy = EntrenamientoHoy(
+                    nombre = "Full Body B",
+                    numEjercicios = 6,
+                    duracionMin = 45,
+                    tags = listOf("Fuerza", "Básico")
+                ),
+                pesoReciente = 75.5f,
+                historialPeso = listOf(78f, 77.2f, 76.5f, 75.5f)
+            ),
+            onEvent = {},
+            onNavigateRecetas = {},
+            onNavigateRutinas = {},
+            onNavigateSesiones = {}
+        )
     }
 }

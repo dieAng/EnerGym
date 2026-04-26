@@ -15,12 +15,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dieang.energym.ui.theme.*
+
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -188,4 +190,29 @@ private fun formatTime(seconds: Int): String {
     val minutes = seconds / 60
     val remainingSeconds = seconds % 60
     return "%02d:%02d".format(minutes, remainingSeconds)
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SesionActiveScreenPreview() {
+    EnerGymTheme {
+        SesionActiveScreen(
+            state = SesionState(
+                tiempoTranscurrido = 725,
+                caloriasQuemadas = 340,
+                energiaGenerada = 156.0,
+                progresoEjercicio = 0.6f,
+                ejercicioActual = "Press de Banca con Barra",
+                series = listOf(
+                    SerieUI(1, 10, 80f, completada = true),
+                    SerieUI(2, 10, 80f, completada = true),
+                    SerieUI(3, 8, 80f, completada = false),
+                    SerieUI(4, 8, 80f, completada = false)
+                )
+            ),
+            onToggleSerie = {},
+            onFinish = {},
+            onClose = {}
+        )
+    }
 }

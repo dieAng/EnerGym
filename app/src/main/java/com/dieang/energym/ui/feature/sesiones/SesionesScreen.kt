@@ -1,7 +1,6 @@
 package com.dieang.energym.ui.feature.sesiones
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -20,6 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dieang.energym.ui.theme.*
 import java.util.UUID
+
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
 
 @Composable
 fun SesionesScreen(
@@ -182,5 +184,46 @@ fun EmptyHistory() {
     ) {
         Text("No hay sesiones que coincidan", color = EnerGymTextSecondary)
         Text("Prueba con otros filtros", fontSize = 12.sp, color = EnerGymTextSecondary.copy(alpha = 0.7f))
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SesionesScreenPreview() {
+    EnerGymTheme {
+        SesionesScreen(
+            state = SesionState(
+                sesiones = listOf(
+                    SesionUI(
+                        id = UUID.randomUUID(),
+                        fecha = "12 Mayo, 2024",
+                        mes = "Mayo",
+                        tipo = "Fuerza",
+                        energiaWh = 45,
+                        series = listOf(SerieUI(1, 10, 50f))
+                    ),
+                    SesionUI(
+                        id = UUID.randomUUID(),
+                        fecha = "10 Mayo, 2024",
+                        mes = "Mayo",
+                        tipo = "Cardio",
+                        energiaWh = 120,
+                        series = listOf(SerieUI(1, 1, 0f))
+                    ),
+                    SesionUI(
+                        id = UUID.randomUUID(),
+                        fecha = "05 Mayo, 2024",
+                        mes = "Mayo",
+                        tipo = "Fuerza",
+                        energiaWh = 38,
+                        series = listOf(SerieUI(1, 12, 40f))
+                    )
+                )
+            ),
+            onRefresh = {},
+            onSelect = {},
+            onFilterMes = {},
+            onFilterTipo = {}
+        )
     }
 }

@@ -23,6 +23,9 @@ import androidx.compose.ui.unit.sp
 import com.dieang.energym.ui.theme.*
 import java.util.UUID
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RutinaDetailScreen(
@@ -144,6 +147,35 @@ fun RutinaDetailScreen(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RutinaDetailScreenPreview() {
+    val rutinaId = UUID.randomUUID()
+    EnerGymTheme {
+        RutinaDetailScreen(
+            rutinaId = rutinaId,
+            state = RutinaState(
+                rutinaSeleccionada = RutinaUI(
+                    id = rutinaId,
+                    nombre = "Empuje (Push Day)",
+                    numEjercicios = 4,
+                    ultimaVez = "2 días",
+                    descripcion = "Enfoque en pecho, hombros y tríceps para máxima hipertrofia."
+                ),
+                ejercicios = listOf(
+                    EjercicioUI(id = "1", nombre = "Press de Banca", series = 4, repeticiones = "8-10", descansoSeg = 90, pesoSugerido = 60f),
+                    EjercicioUI(id = "2", nombre = "Press Militar", series = 3, repeticiones = "10-12", descansoSeg = 60, pesoSugerido = 40f),
+                    EjercicioUI(id = "3", nombre = "Aperturas con Mancuerna", series = 3, repeticiones = "12-15", descansoSeg = 45, pesoSugerido = 12f),
+                    EjercicioUI(id = "4", nombre = "Extensiones de Tríceps", series = 3, repeticiones = "15", descansoSeg = 45, pesoSugerido = 20f)
+                )
+            ),
+            onLoad = {},
+            onStartWorkout = {},
+            onBack = {}
+        )
     }
 }
 

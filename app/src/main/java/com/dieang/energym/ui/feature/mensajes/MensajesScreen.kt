@@ -15,7 +15,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -24,6 +23,9 @@ import com.dieang.energym.ui.theme.NeonGreen
 import com.dieang.energym.ui.theme.TextGray
 import java.text.SimpleDateFormat
 import java.util.*
+
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
 
 @Composable
 fun MensajesScreen(
@@ -161,4 +163,40 @@ fun ChatItem(chat: ChatPreview, onClick: () -> Unit) {
 fun formatTime(timestamp: Long): String {
     val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
     return sdf.format(Date(timestamp))
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MensajesScreenPreview() {
+    EnerGymTheme {
+        MensajesScreen(
+            state = MensajeState(
+                chats = listOf(
+                    ChatPreview(
+                        contactoId = UUID.randomUUID(),
+                        nombreContacto = "Juan Pérez",
+                        ultimoMensaje = "Genial, nos vemos ahí.",
+                        fecha = System.currentTimeMillis(),
+                        sinLeer = 0
+                    ),
+                    ChatPreview(
+                        contactoId = UUID.randomUUID(),
+                        nombreContacto = "Maria García",
+                        ultimoMensaje = "¿Tienes la receta de los panqueques?",
+                        fecha = System.currentTimeMillis() - 3600000,
+                        sinLeer = 2
+                    ),
+                    ChatPreview(
+                        contactoId = UUID.randomUUID(),
+                        nombreContacto = "Carlos Ruiz",
+                        ultimoMensaje = "¡Buen entrenamiento!",
+                        fecha = System.currentTimeMillis() - 86400000,
+                        sinLeer = 0
+                    )
+                )
+            ),
+            onLoad = {},
+            onChatClick = {}
+        )
+    }
 }

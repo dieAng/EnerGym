@@ -23,6 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dieang.energym.ui.theme.*
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
+
 @Composable
 fun RecetasScreen(
     state: RecetaState,
@@ -205,6 +208,52 @@ fun TagItemSmall(text: String) {
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             color = EnerGymTextSecondary,
             fontWeight = FontWeight.Medium
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RecetasScreenPreview() {
+    EnerGymTheme {
+        RecetasScreen(
+            state = RecetaState(
+                resumenHoy = NutricionResumen(
+                    caloriasConsumidas = 1850,
+                    caloriasRestantes = 650,
+                    proteinaG = 120,
+                    carbohidratosG = 210,
+                    estadoProteina = "Faltan 30g",
+                    estadoCarbos = "¡Casi listo!"
+                ),
+                recetas = listOf(
+                    RecetaUI(
+                        id = "1",
+                        nombre = "Pollo con Arroz y Brócoli",
+                        calorias = 450,
+                        tiempoMin = 25,
+                        proteinaG = 35,
+                        categoria = "Almuerzo"
+                    ),
+                    RecetaUI(
+                        id = "2",
+                        nombre = "Batido de Proteína y Avena",
+                        calorias = 320,
+                        tiempoMin = 5,
+                        proteinaG = 25,
+                        categoria = "Snack"
+                    ),
+                    RecetaUI(
+                        id = "3",
+                        nombre = "Ensalada de Atún",
+                        calorias = 280,
+                        tiempoMin = 10,
+                        proteinaG = 30,
+                        categoria = "Cena"
+                    )
+                )
+            ),
+            onNavigateDetail = {}
         )
     }
 }

@@ -25,6 +25,9 @@ import com.dieang.energym.ui.theme.NeonGreen
 import com.dieang.energym.ui.theme.TextGray
 import java.util.UUID
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditarPerfilScreen(
@@ -151,5 +154,27 @@ fun EditarPerfilScreen(
 
             Spacer(Modifier.height(20.dp))
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun EditarPerfilScreenPreview() {
+    EnerGymTheme {
+        EditarPerfilScreen(
+            usuario = Usuario(
+                id = UUID.randomUUID(),
+                nombre = "Diego Angulo",
+                email = "diego@example.com",
+                passwordHash = "",
+                edad = 28,
+                peso = 75f,
+                altura = 180f,
+                objetivo = "Hipertrofia",
+                fotoUrl = null
+            ),
+            onSave = { _, _ -> },
+            onBack = {}
+        )
     }
 }
