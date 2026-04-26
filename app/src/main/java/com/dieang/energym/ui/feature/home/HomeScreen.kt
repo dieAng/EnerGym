@@ -1,21 +1,8 @@
 package com.dieang.energym.ui.feature.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.dieang.energym.ui.feature.home.components.HomeHeader
-import com.dieang.energym.ui.feature.home.components.HomeQuickAccess
-import com.dieang.energym.ui.feature.home.components.HomeSummaryCards
-import com.dieang.energym.ui.feature.home.components.WeightChartCard
-import com.dieang.energym.ui.feature.home.components.TodayTrainingCard
-import com.dieang.energym.ui.theme.EnerGymBackground
-
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -25,12 +12,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.dieang.energym.ui.components.neonGlow
 import com.dieang.energym.ui.feature.home.components.*
 import com.dieang.energym.ui.theme.EnerGymBlue
 import com.dieang.energym.ui.theme.EnerGymTextPrimary
@@ -71,25 +58,48 @@ fun HomeScreen(
             
             HomeHeader(nombre = state.nombreUsuario)
 
+            Spacer(Modifier.height(24.dp))
+
             HomeSummaryCards(
                 racha = state.rachaActual,
                 entrenamientosSemana = state.entrenamientosSemana
             )
 
-            EnergyChartCard(
-                modifier = Modifier.neonGlow(
-                    color = EnerGymBlue,
-                    glowRadius = 12.dp
-                ),
-                semanalWh = state.energiaSemanalWh,
-                totalSemana = state.energiaTotalSemana
-            )
+            Spacer(Modifier.height(24.dp))
 
-            Spacer(Modifier.height(16.dp))
+            Text(
+                text = "Entrenamiento de Hoy",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = EnerGymTextPrimary,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
 
             TodayTrainingCard(
                 entrenamiento = state.entrenamientoHoy,
                 onStartTraining = { onNavigateSesiones() }
+            )
+
+            Spacer(Modifier.height(24.dp))
+
+            Text(
+                text = "Objetivo Actual",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = EnerGymTextPrimary,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+
+            GoalProgressCard()
+
+            Spacer(Modifier.height(24.dp))
+
+            Text(
+                text = "Progreso Reciente",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = EnerGymTextPrimary,
+                modifier = Modifier.padding(bottom = 12.dp)
             )
 
             WeightChartCard(
