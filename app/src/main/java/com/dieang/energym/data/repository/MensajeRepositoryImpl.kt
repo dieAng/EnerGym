@@ -1,7 +1,6 @@
 package com.dieang.energym.data.repository
 
 import com.dieang.energym.data.local.dao.MensajeDao
-import com.dieang.energym.data.local.entity.MensajeEntity
 import com.dieang.energym.data.mappers.toDomain
 import com.dieang.energym.data.mappers.toEntity
 import com.dieang.energym.data.remote.api.MensajeApi
@@ -21,9 +20,9 @@ class MensajeRepositoryImpl(
     }
 
     override suspend fun getConversacion(u1: UUID, u2: UUID): List<Mensaje> =
-        dao.getConversacion(u1, u2)
+        dao.getConversacion(u1, u2).map { it.toDomain() }
 
-    override suspend fun enviarMensaje(request: MensajeCreateRequestDto, emisorId: UUID): MensajeEntity {
+    override suspend fun enviarMensaje(request: MensajeCreateRequestDto, emisorId: UUID): Mensaje {
         val response = api.enviarMensaje(request)
         val entity = response.toEntity()
         dao.insert(entity)
