@@ -2,7 +2,7 @@ package com.dieang.energym.data.repository
 
 import com.dieang.energym.data.local.dao.RutinaDao
 import com.dieang.energym.data.local.dao.RutinaEjercicioDao
-import com.dieang.energym.data.local.entity.RutinaEntity
+import com.dieang.energym.data.mappers.toDomain
 import com.dieang.energym.data.mappers.toEntity
 import com.dieang.energym.data.remote.api.RutinaApi
 import com.dieang.energym.data.remote.dto.request.RutinaCreateRequestDto
@@ -28,12 +28,12 @@ class RutinaRepositoryImpl(
     }
 
     override suspend fun getRutinas(): List<Rutina> =
-        dao.getAll()
+        dao.getAll().map { it.toDomain() }
 
     override suspend fun getRutina(id: UUID): Rutina? =
-        dao.getById(id)
+        dao.getById(id)?.toDomain()
 
-    override suspend fun createRutina(request: RutinaCreateRequestDto): RutinaEntity {
+    override suspend fun createRutina(request: RutinaCreateRequestDto): Rutina {
         val response = api.createRutina(request)
         val entity = response.toEntity()
 
@@ -42,11 +42,12 @@ class RutinaRepositoryImpl(
             response.ejercicios.map { it.toEntity(entity.id) }
         )
 
-        return entity
+        return entity.toDomain()
     }
 
     override suspend fun deleteRutina(id: UUID) {
         api.deleteRutina(id)
-        dao.delete(id)
+        dao.getById(id)?.let { dao.delete(it) }
     }
 }
+

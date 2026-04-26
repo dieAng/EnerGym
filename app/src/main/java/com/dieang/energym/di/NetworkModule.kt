@@ -3,7 +3,8 @@ package com.dieang.energym.di
 import com.dieang.energym.core.network.AuthInterceptor
 import com.dieang.energym.core.network.RetrofitProvider
 import com.dieang.energym.data.local.datastore.TokenProvider
-import com.dieang.energym.data.remote.api.AuthApi
+import com.dieang.energym.data.remote.api.*
+import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +23,7 @@ object NetworkModule {
     @Singleton
     fun provideAuthInterceptor(
         tokenProvider: TokenProvider,
-        authApi: AuthApi
+        authApi: Lazy<AuthApi>
     ): AuthInterceptor =
         AuthInterceptor(tokenProvider, authApi)
 
@@ -50,6 +51,39 @@ object NetworkModule {
     ): AuthApi =
         retrofit.create(AuthApi::class.java)
 
-    // 5. Aquí agregas el resto de APIs
-    // @Provides fun provideUsuarioApi(retrofit: Retrofit): UsuarioApi = retrofit.create(UsuarioApi::class.java)
+    @Provides
+    @Singleton
+    fun provideUsuarioApi(retrofit: Retrofit): UsuarioApi = retrofit.create(UsuarioApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRecetaApi(retrofit: Retrofit): RecetaApi = retrofit.create(RecetaApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideIngredienteApi(retrofit: Retrofit): IngredienteApi = retrofit.create(IngredienteApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRutinaApi(retrofit: Retrofit): RutinaApi = retrofit.create(RutinaApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideEjercicioApi(retrofit: Retrofit): EjercicioApi = retrofit.create(EjercicioApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSesionEntrenamientoApi(retrofit: Retrofit): SesionEntrenamientoApi = retrofit.create(SesionEntrenamientoApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providePostApi(retrofit: Retrofit): PostApi = retrofit.create(PostApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideComentarioApi(retrofit: Retrofit): ComentarioApi = retrofit.create(ComentarioApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMensajeApi(retrofit: Retrofit): MensajeApi = retrofit.create(MensajeApi::class.java)
 }

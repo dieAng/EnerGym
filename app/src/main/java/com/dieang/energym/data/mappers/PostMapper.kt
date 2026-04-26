@@ -3,7 +3,28 @@ package com.dieang.energym.data.mappers
 import com.dieang.energym.data.local.entity.PostEntity
 import com.dieang.energym.data.remote.dto.request.PostCreateRequestDto
 import com.dieang.energym.data.remote.dto.response.PostResponseDto
+import com.dieang.energym.domain.model.Post
 import java.util.UUID
+
+// Entity → Domain
+fun PostEntity.toDomain() = Post(
+    id = id,
+    usuarioId = usuarioId,
+    contenido = contenido,
+    imagenUrl = imagenUrl,
+    energiaGenerada = energiaGenerada,
+    fecha = fecha
+)
+
+// Domain → Entity
+fun Post.toEntity() = PostEntity(
+    id = id,
+    usuarioId = usuarioId,
+    contenido = contenido,
+    imagenUrl = imagenUrl,
+    energiaGenerada = energiaGenerada,
+    fecha = fecha
+)
 
 // Response → Entity
 fun PostResponseDto.toEntity() = PostEntity(
@@ -11,6 +32,7 @@ fun PostResponseDto.toEntity() = PostEntity(
     usuarioId = usuarioId,
     contenido = contenido,
     imagenUrl = imagenUrl,
+    energiaGenerada = energiaGenerada,
     fecha = fecha
 )
 
@@ -20,5 +42,6 @@ fun PostCreateRequestDto.toEntity(generatedId: UUID) = PostEntity(
     usuarioId = usuarioId,
     contenido = contenido,
     imagenUrl = imagenUrl,
+    energiaGenerada = energiaGenerada ?: 0.0,
     fecha = System.currentTimeMillis()
 )

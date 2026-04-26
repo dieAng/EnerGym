@@ -17,6 +17,12 @@ interface SesionEntrenamientoDao {
     @Query("SELECT * FROM sesion_entrenamiento WHERE id = :id")
     suspend fun getById(id: UUID): SesionEntrenamientoEntity?
 
+    @Query("SELECT * FROM sesion_entrenamiento WHERE sincronizado = 0")
+    suspend fun getNoSincronizados(): List<SesionEntrenamientoEntity>
+
+    @Query("DELETE FROM sesion_entrenamiento WHERE sincronizado = 1 AND fecha < :timestamp")
+    suspend fun deleteOldSynchronized(timestamp: Long)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(sesionEntrenamiento: SesionEntrenamientoEntity)
 

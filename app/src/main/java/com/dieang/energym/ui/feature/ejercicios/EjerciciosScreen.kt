@@ -37,7 +37,7 @@ fun EjerciciosScreen(
                 ) {
                     Column(Modifier.padding(16.dp)) {
                         Text(ejercicio.nombre, style = MaterialTheme.typography.titleMedium)
-                        Text("Músculo: ${ejercicio.musculo}")
+                        Text("Músculo: ${ejercicio.grupoMuscular}")
                     }
                 }
             }

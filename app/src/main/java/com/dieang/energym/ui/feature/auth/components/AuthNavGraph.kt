@@ -4,29 +4,31 @@ import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import androidx.navigation.compose.composable
+import com.dieang.energym.ui.feature.auth.AuthViewModel
 import com.dieang.energym.ui.feature.auth.LoginScreen
+import com.dieang.energym.ui.feature.auth.RegisterScreen
 import com.dieang.energym.ui.navigation.Routes
 
 fun NavGraphBuilder.authNavGraph(navController: NavController) {
     navigation(
         startDestination = Routes.LOGIN,
-        route = Routes.LOGIN
+        route = "auth_graph"
     ) {
         composable(Routes.LOGIN) {
-            val vm = hiltViewModel<LoginViewModel>()
+            val vm: AuthViewModel = hiltViewModel()
             LoginScreen(
                 state = vm.state.collectAsState().value,
-                onEvent = vm::onEvent,
-                onNavigateHome = { navController.navigate(Routes.HOME) },
-                onNavigateRegister = { navController.navigate(Routes.REGISTER) }
+                onLogin = vm::login,
+                onSuccess = { navController.navigate(Routes.HOME) },
+                onNavigateToRegister = { navController.navigate(Routes.REGISTER) }
             )
         }
 
         composable(Routes.REGISTER) {
-            val vm = hiltViewModel<RegisterViewModel>()
+            val vm: AuthViewModel = hiltViewModel()
             RegisterScreen(
                 state = vm.state.collectAsState().value,
-                onEvent = vm::onEvent,
+                onRegister = vm::register,
                 onNavigateLogin = { navController.navigate(Routes.LOGIN) }
             )
         }

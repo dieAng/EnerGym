@@ -7,6 +7,7 @@ import com.dieang.energym.data.mappers.toEntity
 import com.dieang.energym.data.remote.api.AuthApi
 import com.dieang.energym.data.remote.dto.request.LoginRequestDto
 import com.dieang.energym.data.remote.dto.request.RefreshTokenRequestDto
+import com.dieang.energym.data.remote.dto.request.UsuarioCreateRequestDto
 import com.dieang.energym.domain.model.Usuario
 import com.dieang.energym.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow
@@ -30,6 +31,12 @@ class AuthRepositoryImpl(
         userStore.saveUser(usuario)
 
         return usuario
+    }
+
+    override suspend fun register(request: UsuarioCreateRequestDto): UsuarioEntity {
+        // En una implementación real llamaríamos a api.register(request)
+        // Por ahora simulamos el comportamiento para compilar
+        throw NotImplementedError("Registro no implementado aún en API")
     }
 
     override suspend fun refreshToken(): Boolean {
@@ -64,3 +71,5 @@ class AuthRepositoryImpl(
     override fun isLoggedIn(): Flow<Boolean> =
         tokenStore.observeAccessToken().map { !it.isNullOrEmpty() }
 }
+
+

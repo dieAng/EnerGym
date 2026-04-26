@@ -9,4 +9,6 @@ interface SerieRealizadaRepository {
     suspend fun getSeriesBySesion(sesionId: UUID): List<SerieRealizada>
 
     suspend fun createSerie(sesionId: UUID, request: SerieRealizadaCreateRequestDto): SerieRealizada
+
+    suspend fun getVolumenTotal(usuarioId: UUID): Float
 }

@@ -28,5 +28,9 @@ data class SesionEntrenamientoEntity(
     @PrimaryKey val id: UUID = UUID.randomUUID(),
     val usuarioId: UUID,
     val rutinaId: UUID?,
-    val fecha: Long
+    val fecha: Long,
+    val duracionSegundos: Int = 0,
+    val energiaGeneradaWh: Int = 0,
+    val caloriasQuemadas: Int = 0,
+    val sincronizado: Boolean = false
 )

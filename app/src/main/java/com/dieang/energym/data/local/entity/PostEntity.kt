@@ -23,5 +23,7 @@ data class PostEntity(
     val usuarioId: UUID,
     val contenido: String?,
     val imagenUrl: String?,
-    val fecha: Long
+    val energiaGenerada: Double = 0.0,
+    val fecha: Long,
+    val sincronizado: Boolean = false
 )

@@ -4,12 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dieang.energym.domain.usecase.ejercicios.GetEjercicioUseCase
 import com.dieang.energym.domain.usecase.ejercicios.GetEjerciciosUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EjercicioViewModel(
+@HiltViewModel
+class EjercicioViewModel @Inject constructor(
     private val getEjercicios: GetEjerciciosUseCase,
     private val getEjercicio: GetEjercicioUseCase
 ) : ViewModel() {

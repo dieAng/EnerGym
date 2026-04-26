@@ -1,36 +1,28 @@
 package com.dieang.energym.ui.feature.mensajes.components
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.dieang.energym.ui.feature.mensajes.ChatScreen
 import com.dieang.energym.ui.feature.mensajes.MensajeViewModel
 import com.dieang.energym.ui.feature.mensajes.MensajesScreen
 import com.dieang.energym.ui.navigation.Routes
+import java.util.UUID
 
-fun NavGraphBuilder.mensajesNavGraph(navController: NavController) {
-    navigation(
-        startDestination = Routes.MENSAJES,
-        route = Routes.MENSAJES
-    ) {
-        composable(Routes.MENSAJES) {
-            val vm: MensajeViewModel = hiltViewModel()
-            MensajesScreen(
-                state = vm.state.collectAsState().value,
-                onEvent = vm::onEvent,
-                onNavigateToChat = { id -> navController.navigate("${Routes.CHAT}/$id") }
-            )
+@Composable
+fun MensajesNavGraph(navController: NavController) {
+    val vm: MensajeViewModel = hiltViewModel()
+    MensajesScreen(
+        state = vm.state.collectAsState().value,
+        onLoad = { vm.loadChats() },
+        onChatClick = { id ->
+            navController.navigate(Routes.CHAT.replace("{u2}", id.toString()))
         }
-
-        composable("${Routes.CHAT}/{id}") {
-            val vm: MensajeViewModel = hiltViewModel()
-            ChatScreen(
-                state = vm.state.collectAsState().value,
-                onEvent = vm::onEvent,
-                onBack = { navController.popBackStack() }
-            )
-        }
-    }
+    )
 }

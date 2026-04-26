@@ -2,7 +2,7 @@ package com.dieang.energym.data.repository
 
 import com.dieang.energym.data.local.dao.IngredienteDao
 import com.dieang.energym.data.local.dao.RecetaDao
-import com.dieang.energym.data.local.entity.RecetaEntity
+import com.dieang.energym.data.mappers.toDomain
 import com.dieang.energym.data.mappers.toEntity
 import com.dieang.energym.data.remote.api.RecetaApi
 import com.dieang.energym.data.remote.dto.request.RecetaCreateRequestDto
@@ -29,12 +29,12 @@ class RecetaRepositoryImpl(
     }
 
     override suspend fun getRecetas(): List<Receta> =
-        dao.getAll()
+        dao.getAll().map { it.toDomain() }
 
     override suspend fun getReceta(id: UUID): Receta? =
-        dao.getById(id)
+        dao.getById(id)?.toDomain()
 
-    override suspend fun createReceta(request: RecetaCreateRequestDto): RecetaEntity {
+    override suspend fun createReceta(request: RecetaCreateRequestDto): Receta {
         val response = api.createReceta(request)
         val entity = response.toEntity()
 
@@ -43,7 +43,7 @@ class RecetaRepositoryImpl(
             response.ingredientes.map { it.toEntity(entity.id) }
         )
 
-        return entity
+        return entity.toDomain()
     }
 
     override suspend fun updateReceta(id: UUID, request: RecetaUpdateRequestDto) {
@@ -53,6 +53,7 @@ class RecetaRepositoryImpl(
 
     override suspend fun deleteReceta(id: UUID) {
         api.deleteReceta(id)
-        dao.delete(id)
+        dao.getById(id)?.let { dao.delete(it) }
     }
 }
+

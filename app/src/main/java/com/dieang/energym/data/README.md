@@ -1,157 +1,32 @@
-# 📘 Módulo `data`
+# Módulo Data 💾
 
-## 🧩 Descripción general
+El módulo `data` es responsable de la persistencia de datos y de la comunicación con fuentes externas (APIs). Implementa las interfaces de repositorio definidas en la capa de Domain.
 
-El módulo **`data`** implementa la **capa de datos** de la arquitectura Clean.  
-Su responsabilidad es **obtener, almacenar y transformar** datos desde:
+## 📦 Contenido
 
-- API REST (Retrofit)
-- Base de datos local (Room)
-- DataStore
-- Cachés locales
-- Fuentes mixtas (remote + local)
+### [local](local/)
+Gestiona la persistencia local de la aplicación:
+- **Room**: Base de datos SQLite (`EnergymDatabase`).
+- **DAOs**: Objetos de acceso a datos para cada entidad.
+- **DataStore**: Almacenamiento de preferencias del usuario y tokens de sesión.
 
-No contiene lógica de negocio: solo **implementaciones de repositorios y fuentes de datos.**
+### [remote](remote/)
+Encargado de la comunicación con el servidor:
+- **API Interfaces**: Definiciones de Retrofit para los servicios web.
+- **DTOs**: Objetos de transferencia de datos optimizados para la red.
 
----
+### [repository](repository/)
+Contiene las implementaciones de los repositorios de Domain. Aquí se orquesta la lógica de cuándo obtener datos de la red o de la base de datos local (Offline-first approach).
 
-## 🏛️ Responsabilidades del módulo `data`
+### [mappers](mappers/)
+Funciones de conversión para transformar objetos entre las diferentes capas:
+- `DTO` ↔ `Entity`
+- `Entity` ↔ `Domain Model`
 
-El módulo **`core`** se encarga de:
+### [worker](worker/)
+Implementación de `SyncWorker` mediante **WorkManager** para la sincronización automática en segundo plano de datos pendientes.
 
-### Implementar los repositorios definidos en **``domain``**
-
-Cada repositorio del dominio tiene su implementación en **``data``**.
-
-### Gestionar las fuentes de datos
-
-- Remote → Retrofit
-- Local → Room
-- Preferences → DataStore
-
-### Mapear DTOs ↔ Domain Models
-
-El módulo **``data``** transforma datos externos en modelos del dominio.
-
-### Manejar errores de red y almacenamiento
-
-Incluye try/catch, validaciones y manejo de excepciones.
-
-### Proveer datos consistentes a los UseCases
-
-Los UseCases nunca deben saber si los datos vienen de red o local.
-
----
-
-## 📁 Estructura
-
-```text
-data/
-   ├── remote/
-   │     ├── api/
-   │     ├── dto/
-   │     │     ├── request/
-   │     │     └── response/
-   │     └── mapper/
-   │
-   ├── local/
-   │     ├── dao/
-   │     ├── entity/
-   │     └── mapper/
-   │
-   ├── repository/
-   │     └── impl/
-   │
-   └── datastore/
-         ├── TokenDataStore.kt
-         └── UserDataStore.kt
-
-```
-
----
-
-## remote/
-
-- APIs Retrofit
-- DTOs de request/response
-- Mappers DTO → Domain
-
----
-
-## local/
-
-- Entities Room
-- DAOs
-- Mappers Entity ↔ Domain
-
----
-
-## datastore/
-
-- TokenDataStore
-    - Guarda access token
-    - Guarda refresh token
-    - Limpia tokens
-- UserDataStore
-    - Guarda usuario logueado
-    - Devuelve usuario actual
-    - Limpia datos
-
----
-
-## repository/impl/
-
-Implementaciones de los repositorios del dominio.  
-Cada repositorio combina:
-
-- API
-- Room
-- DataStore
-
----
-
-## Integración con DI
-
-El módulo `data` se integra mediante:
-
-- `NetworkModule`
-- `DataStoreModule`
-- `RepositoryModule`
-
----
-
-## Relación con la arquitectura
-
-````text
-presentation → ViewModels
-ViewModels → UseCases (domain)
-UseCases → Repositorios (domain)
-Repositorios → data
-data → API / Room / DataStore
-````
-
----
-
-## 🎯 Ventajas de este diseño
-
-**Dominio limpio**
-
-No depende de Retrofit, Room ni DataStore.
-
-**Fácil de testear**
-
-Puedes mockear repositorios o APIs.
-
-**Escalable**
-
-Agregar una nueva feature implica:
-
-- API
-- DTOs
-- Entity
-- DAO
-- RepositoryImpl
-
-**Profesional**
-
-Arquitectura Clean real, sin atajos.
+## 📌 Responsabilidades
+- Implementar la lógica de acceso a datos.
+- Gestionar el almacenamiento en caché y la sincronización offline.
+- Realizar el mapeo de datos crudos a modelos de dominio limpios.

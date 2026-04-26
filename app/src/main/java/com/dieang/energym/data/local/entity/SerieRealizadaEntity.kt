@@ -29,5 +29,6 @@ data class SerieRealizadaEntity(
     val sesionId: UUID,
     val ejercicioId: UUID,
     val repeticiones: Int,
-    val peso: Float
+    val peso: Float,
+    val sincronizado: Boolean = false
 )
