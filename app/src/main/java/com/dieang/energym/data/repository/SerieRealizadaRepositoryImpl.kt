@@ -24,7 +24,7 @@ class SerieRealizadaRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    suspend fun getVolumenTotal(usuarioId: UUID): Float {
+    override suspend fun getVolumenTotal(usuarioId: UUID): Float {
         return dao.getVolumenTotalUsuario(usuarioId) ?: 0f
     }
 }
