@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dieang.energym.domain.model.Mensaje
 import com.dieang.energym.domain.model.Usuario
-import com.dieang.energym.ui.theme.ElectricBlue
 import com.dieang.energym.ui.theme.NeonGreen
 import com.dieang.energym.ui.theme.TextGray
 import androidx.compose.ui.tooling.preview.Preview
