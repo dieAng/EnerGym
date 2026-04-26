@@ -19,9 +19,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dieang.energym.domain.model.Mensaje
+import com.dieang.energym.domain.model.Usuario
 import com.dieang.energym.ui.theme.ElectricBlue
 import com.dieang.energym.ui.theme.NeonGreen
 import com.dieang.energym.ui.theme.TextGray
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -179,5 +182,39 @@ fun ChatBubble(mensaje: Mensaje, isMine: Boolean) {
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ChatScreenPreview() {
+    val myId = UUID.randomUUID()
+    val otherId = UUID.randomUUID()
+    EnerGymTheme {
+        ChatScreen(
+            contactoId = otherId,
+            usuarioLogueadoId = myId,
+            state = MensajeState(
+                contactoActual = Usuario(
+                    id = otherId,
+                    nombre = "Juan Pérez",
+                    email = "juan@example.com",
+                    passwordHash = "",
+                    edad = null,
+                    peso = null,
+                    altura = null,
+                    objetivo = null,
+                    fotoUrl = null
+                ),
+                mensajesActuales = listOf(
+                    Mensaje(id = UUID.randomUUID(), emisorId = otherId, receptorId = myId, contenido = "Hola, ¿vas a entrenar hoy?", fecha = System.currentTimeMillis()),
+                    Mensaje(id = UUID.randomUUID(), emisorId = myId, receptorId = otherId, contenido = "¡Sí! En 30 minutos llego.", fecha = System.currentTimeMillis()),
+                    Mensaje(id = UUID.randomUUID(), emisorId = otherId, receptorId = myId, contenido = "Genial, nos vemos ahí.", fecha = System.currentTimeMillis())
+                )
+            ),
+            onLoad = {},
+            onSend = { _, _ -> },
+            onBack = {}
+        )
     }
 }
