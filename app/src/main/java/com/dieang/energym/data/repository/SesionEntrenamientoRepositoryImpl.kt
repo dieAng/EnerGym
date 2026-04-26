@@ -30,12 +30,12 @@ class SesionEntrenamientoRepositoryImpl(
     }
 
     override suspend fun getSesiones(): List<SesionEntrenamiento> =
-        dao.getAll().map { it.toDomain() }.map { it.toDomain() }
+        dao.getAll().map { it.toDomain() }
 
     override suspend fun getSesion(id: UUID): SesionEntrenamiento? =
-        dao.getById(id)?.toDomain()?.toDomain()
+        dao.getById(id)?.toDomain()
 
-    override suspend fun createSesion(request: SesionCreateRequestDto): SesionEntrenamientoEntity {
+    override suspend fun createSesion(request: SesionCreateRequestDto): SesionEntrenamiento {
         // 1. Crear entidad local (Offline First)
         val entity = SesionEntrenamientoEntity(
             usuarioId = request.usuarioId,

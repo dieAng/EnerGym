@@ -36,7 +36,7 @@ fun SesionActiveScreen(
                 title = {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = formatTime(state.tiempoSegundos),
+                            text = formatTime(state.tiempoTranscurrido.toInt()),
                             fontSize = 20.sp,
                             fontWeight = FontWeight.ExtraBold,
                             color = EnerGymTextPrimary
@@ -92,7 +92,7 @@ fun SesionActiveScreen(
                         )
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Icon(Icons.Default.ElectricBolt, contentDescription = null, tint = EnerGymBlue, modifier = Modifier.size(20.dp))
-                            Text(text = "${state.energiaGenerada}", fontSize = 18.sp, fontWeight = FontWeight.Black, color = EnerGymBlue)
+                            Text(text = String.format("%.0f", state.energiaGenerada), fontSize = 18.sp, fontWeight = FontWeight.Black, color = EnerGymBlue)
                             Text(text = "Watts", fontSize = 8.sp, color = EnerGymTextSecondary)
                         }
                     }

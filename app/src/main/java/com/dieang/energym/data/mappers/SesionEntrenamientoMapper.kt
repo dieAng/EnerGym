@@ -6,17 +6,6 @@ import com.dieang.energym.data.remote.dto.response.SesionEntrenamientoResponseDt
 import com.dieang.energym.domain.model.SesionEntrenamiento
 import java.util.UUID
 
-// Response → Entity
-fun SesionEntrenamientoResponseDto.toEntity() = SesionEntrenamientoEntity(
-    id = id,
-    usuarioId = usuarioId,
-    rutinaId = rutinaId,
-    fecha = fecha,
-    duracionSegundos = 0, // DTOs podrían no tenerlo aún
-    energiaGeneradaWh = 0,
-    caloriasQuemadas = 0
-)
-
 // Entity → Domain
 fun SesionEntrenamientoEntity.toDomain() = SesionEntrenamiento(
     id = id,
@@ -26,6 +15,28 @@ fun SesionEntrenamientoEntity.toDomain() = SesionEntrenamiento(
     duracionSegundos = duracionSegundos,
     energiaGeneradaWh = energiaGeneradaWh,
     caloriasQuemadas = caloriasQuemadas
+)
+
+// Domain → Entity
+fun SesionEntrenamiento.toEntity() = SesionEntrenamientoEntity(
+    id = id,
+    usuarioId = usuarioId,
+    rutinaId = rutinaId,
+    fecha = fecha,
+    duracionSegundos = duracionSegundos ?: 0,
+    energiaGeneradaWh = energiaGeneradaWh ?: 0,
+    caloriasQuemadas = caloriasQuemadas ?: 0
+)
+
+// Response → Entity
+fun SesionEntrenamientoResponseDto.toEntity() = SesionEntrenamientoEntity(
+    id = id,
+    usuarioId = usuarioId,
+    rutinaId = rutinaId,
+    fecha = fecha,
+    duracionSegundos = 0, // DTOs podrían no tenerlo aún
+    energiaGeneradaWh = 0,
+    caloriasQuemadas = 0
 )
 
 // Request → Entity (cuando creas una sesión local)

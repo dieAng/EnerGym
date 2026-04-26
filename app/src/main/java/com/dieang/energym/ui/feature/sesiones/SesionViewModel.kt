@@ -9,8 +9,7 @@ import com.dieang.energym.domain.usecase.sesiones.CreateSesionUseCase
 import com.dieang.energym.domain.usecase.sesiones.SaveSesionUseCase
 import com.dieang.energym.domain.usecase.auth.GetLoggedUserUseCase
 import com.dieang.energym.domain.usecase.posts.CreatePostUseCase
-import com.dieang.energym.domain.model.Post
-import com.dieang.energym.data.remote.dto.PostCreateRequestDto
+import com.dieang.energym.data.remote.dto.request.PostCreateRequestDto
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -56,9 +55,9 @@ class SesionViewModel @Inject constructor(
                 isActive = true,
                 ejercicioActual = "Press de Banca con Barra",
                 seriesRestantes = 2,
-                tiempoSegundos = 455, // 07:35
+                tiempoTranscurrido = 455L, // 07:35
                 caloriasQuemadas = 145,
-                energiaGenerada = 42,
+                energiaGenerada = 42.0,
                 series = dummySeries,
                 progresoEjercicio = 0.5f
             )
@@ -71,7 +70,7 @@ class SesionViewModel @Inject constructor(
         timerJob = viewModelScope.launch {
             while (true) {
                 delay(1000)
-                _state.update { it.copy(tiempoSegundos = it.tiempoSegundos + 1) }
+                _state.update { it.copy(tiempoTranscurrido = it.tiempoTranscurrido + 1) }
             }
         }
     }
@@ -90,8 +89,8 @@ class SesionViewModel @Inject constructor(
         val currentState = _state.value
         
         // Datos finales
-        val duracion = currentState.tiempoSegundos
-        val energia = currentState.energiaGenerada
+        val duracion = currentState.tiempoTranscurrido.toInt()
+        val energia = currentState.energiaGenerada.toInt()
         val calorias = currentState.caloriasQuemadas
         
         // Guardar en Room
@@ -130,7 +129,8 @@ class SesionViewModel @Inject constructor(
                 PostCreateRequestDto(
                     usuarioId = usuario.id,
                     contenido = contenido,
-                    energiaWh = resumen.energiaTotal
+                    imagenUrl = null,
+                    energiaGenerada = resumen.energiaTotal.toDouble()
                 )
             )
             // Aquí podríamos añadir un estado de éxito para mostrar un Toast
