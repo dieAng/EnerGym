@@ -15,6 +15,15 @@ fun ComentarioEntity.toDomain() = Comentario(
     fecha = fecha
 )
 
+// Domain → Entity
+fun Comentario.toEntity() = ComentarioEntity(
+    id = id,
+    postId = postId,
+    usuarioId = usuarioId,
+    contenido = contenido,
+    fecha = fecha
+)
+
 // Response → Entity
 fun ComentarioResponseDto.toEntity(postId: UUID) = ComentarioEntity(
     id = id,
