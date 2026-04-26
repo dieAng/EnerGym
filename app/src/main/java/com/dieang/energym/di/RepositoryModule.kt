@@ -24,28 +24,8 @@ import com.dieang.energym.data.remote.api.RecetaApi
 import com.dieang.energym.data.remote.api.RutinaApi
 import com.dieang.energym.data.remote.api.SesionEntrenamientoApi
 import com.dieang.energym.data.remote.api.UsuarioApi
-import com.dieang.energym.data.repository.AuthRepositoryImpl
-import com.dieang.energym.data.repository.ComentarioRepositoryImpl
-import com.dieang.energym.data.repository.EjercicioRepositoryImpl
-import com.dieang.energym.data.repository.IngredienteRepositoryImpl
-import com.dieang.energym.data.repository.MensajeRepositoryImpl
-import com.dieang.energym.data.repository.PesoRepositoryImpl
-import com.dieang.energym.data.repository.PostRepositoryImpl
-import com.dieang.energym.data.repository.RecetaRepositoryImpl
-import com.dieang.energym.data.repository.RutinaRepositoryImpl
-import com.dieang.energym.data.repository.SesionEntrenamientoRepositoryImpl
-import com.dieang.energym.data.repository.UsuarioRepositoryImpl
-import com.dieang.energym.domain.repository.AuthRepository
-import com.dieang.energym.domain.repository.ComentarioRepository
-import com.dieang.energym.domain.repository.EjercicioRepository
-import com.dieang.energym.domain.repository.IngredienteRepository
-import com.dieang.energym.domain.repository.MensajeRepository
-import com.dieang.energym.domain.repository.PesoRepository
-import com.dieang.energym.domain.repository.PostRepository
-import com.dieang.energym.domain.repository.RecetaRepository
-import com.dieang.energym.domain.repository.RutinaRepository
-import com.dieang.energym.domain.repository.SesionEntrenamientoRepository
-import com.dieang.energym.domain.repository.UsuarioRepository
+import com.dieang.energym.data.repository.*
+import com.dieang.energym.domain.repository.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -126,4 +106,9 @@ object RepositoryModule {
     fun providePesoRepository(
         dao: HistorialPesoDao
     ): PesoRepository = PesoRepositoryImpl(dao)
+
+    @Provides @Singleton
+    fun provideSerieRealizadaRepository(
+        dao: SerieRealizadaDao
+    ): SerieRealizadaRepository = SerieRealizadaRepositoryImpl(dao)
 }
