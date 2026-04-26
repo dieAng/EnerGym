@@ -1,5 +1,6 @@
 package com.dieang.energym.ui.feature.splash.components
 
+import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import androidx.navigation.compose.composable
