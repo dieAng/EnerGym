@@ -1,6 +1,7 @@
 package com.dieang.energym.data.repository
 
 import com.dieang.energym.data.local.dao.EjercicioDao
+import com.dieang.energym.data.mappers.toDomain
 import com.dieang.energym.data.mappers.toEntity
 import com.dieang.energym.data.remote.api.EjercicioApi
 import com.dieang.energym.domain.model.Ejercicio
@@ -18,8 +19,9 @@ class EjercicioRepositoryImpl(
     }
 
     override suspend fun getEjercicios(): List<Ejercicio> =
-        dao.getAll()
+        dao.getAll().map { it.toDomain() }
 
     override suspend fun getEjercicio(id: UUID): Ejercicio? =
-        dao.getById(id)
+        dao.getById(id)?.toDomain()
 }
+

@@ -1,7 +1,7 @@
 package com.dieang.energym.data.repository
 
 import com.dieang.energym.data.local.dao.UsuarioDao
-import com.dieang.energym.data.local.entity.UsuarioEntity
+import com.dieang.energym.data.mappers.toDomain
 import com.dieang.energym.data.mappers.toEntity
 import com.dieang.energym.data.remote.api.UsuarioApi
 import com.dieang.energym.data.remote.dto.request.UsuarioCreateRequestDto
@@ -21,16 +21,16 @@ class UsuarioRepositoryImpl(
     }
 
     override suspend fun getUsuarios(): List<Usuario> =
-        dao.getAll()
+        dao.getAll().map { it.toDomain() }
 
     override suspend fun getUsuario(id: UUID): Usuario? =
-        dao.getById(id)
+        dao.getById(id)?.toDomain()
 
-    override suspend fun createUsuario(request: UsuarioCreateRequestDto): UsuarioEntity {
+    override suspend fun createUsuario(request: UsuarioCreateRequestDto): Usuario {
         val response = api.createUsuario(request)
         val entity = response.toEntity()
         dao.insert(entity)
-        return entity
+        return entity.toDomain()
     }
 
     override suspend fun updateUsuario(id: UUID, request: UsuarioUpdateRequestDto) {
@@ -40,6 +40,7 @@ class UsuarioRepositoryImpl(
 
     override suspend fun deleteUsuario(id: UUID) {
         api.deleteUsuario(id)
-        dao.delete(id)
+        dao.getById(id)?.let { dao.delete(it) }
     }
 }
+

@@ -1,5 +1,7 @@
 package com.dieang.energym.core.network
 
+import dagger.Lazy
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 import com.dieang.energym.data.local.datastore.TokenProvider
@@ -8,7 +10,7 @@ import com.dieang.energym.data.remote.dto.request.RefreshTokenRequestDto
 
 class AuthInterceptor(
     private val tokenProvider: TokenProvider,
-    private val authApi: AuthApi
+    private val authApiLazy: Lazy<AuthApi>
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -34,9 +36,11 @@ class AuthInterceptor(
             }
 
             return try {
-                val refreshResponse = authApi.refresh(
-                    RefreshTokenRequestDto(refreshToken)
-                )
+                val refreshResponse = runBlocking {
+                    authApiLazy.get().refresh(
+                        RefreshTokenRequestDto(refreshToken)
+                    )
+                }
 
                 tokenProvider.saveTokens(
                     refreshResponse.token,

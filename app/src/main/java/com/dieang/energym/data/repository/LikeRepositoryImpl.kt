@@ -12,3 +12,4 @@ class LikeRepositoryImpl(
         api.likePost(postId)
     }
 }
+
