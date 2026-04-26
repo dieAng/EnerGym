@@ -22,6 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dieang.energym.ui.theme.*
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecetaDetailScreen(
@@ -143,6 +146,43 @@ fun BadgeInfo(text: String, color: Color) {
             fontSize = 12.sp,
             color = color,
             fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RecetaDetailScreenPreview() {
+    EnerGymTheme {
+        RecetaDetailScreen(
+            recetaId = "1",
+            state = RecetaState(
+                recetaSeleccionada = RecetaDetailUI(
+                    id = "1",
+                    nombre = "Pollo con Arroz y Brócoli",
+                    calorias = 450,
+                    tiempoMin = 25,
+                    proteinaG = 35,
+                    grasasG = 10,
+                    carbosG = 50,
+                    descripcion = "Una comida equilibrada ideal para después de entrenar.",
+                    ingredientes = listOf(
+                        "200g de pechuga de pollo",
+                        "100g de arroz integral",
+                        "150g de brócoli al vapor",
+                        "1 cucharada de aceite de oliva",
+                        "Especias al gusto"
+                    ),
+                    pasos = listOf(
+                        "Cocinar el arroz integral en agua hirviendo durante 20 minutos.",
+                        "Cortar el pollo en dados y saltear en una sartén con aceite de oliva.",
+                        "Lavar y cocinar el brócoli al vapor durante 5-7 minutos.",
+                        "Mezclar todo en un plato y añadir especias."
+                    )
+                )
+            ),
+            onLoad = {},
+            onBack = {}
         )
     }
 }
