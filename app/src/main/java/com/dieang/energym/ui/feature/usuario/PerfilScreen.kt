@@ -24,6 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dieang.energym.ui.theme.*
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.domain.model.Usuario
+import com.dieang.energym.ui.theme.EnerGymTheme
+import java.util.UUID
+
 @Composable
 fun PerfilScreen(
     state: UsuarioState,
@@ -334,4 +339,38 @@ private fun Icon(imageVector: ImageVector, contentDescription: String?, tint: Co
         modifier = Modifier.size(16.dp),
         tint = tint
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PerfilScreenPreview() {
+    val userId = UUID.randomUUID()
+    EnerGymTheme {
+        PerfilScreen(
+            state = UsuarioState(
+                usuario = Usuario(
+                    id = userId,
+                    nombre = "Diego Angulo",
+                    email = "diego@example.com",
+                    passwordHash = "",
+                    edad = 28,
+                    peso = 75f,
+                    altura = 180f,
+                    objetivo = "Hipertrofia",
+                    fotoUrl = null
+                ),
+                username = "@dieang",
+                stats = PerfilStats(
+                    entrenamientos = 124,
+                    rachaMaxima = 15,
+                    prsLogrados = 23,
+                    energiaTotalWh = 4500
+                )
+            ),
+            onNavigateSettings = {},
+            onNavigateStats = {},
+            onLogout = {},
+            onSesionClick = {}
+        )
+    }
 }

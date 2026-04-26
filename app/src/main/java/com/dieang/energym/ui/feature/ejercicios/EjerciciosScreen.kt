@@ -16,6 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.domain.model.Ejercicio
+import com.dieang.energym.ui.theme.EnerGymTheme
+import java.util.UUID
+
 @Composable
 fun EjerciciosScreen(
     state: EjercicioState,
@@ -42,5 +47,22 @@ fun EjerciciosScreen(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun EjerciciosScreenPreview() {
+    EnerGymTheme {
+        EjerciciosScreen(
+            state = EjercicioState(
+                ejercicios = listOf(
+                    Ejercicio(id = UUID.randomUUID(), nombre = "Press de Banca", grupoMuscular = "Pecho", equipo = "Barra", descripcion = "Ejercicio básico de empuje.", imagenUrl = null, videoUrl = null),
+                    Ejercicio(id = UUID.randomUUID(), nombre = "Sentadilla", grupoMuscular = "Piernas", equipo = "Barra", descripcion = "Rey de los ejercicios de pierna.", imagenUrl = null, videoUrl = null),
+                    Ejercicio(id = UUID.randomUUID(), nombre = "Dominadas", grupoMuscular = "Espalda", equipo = "Peso Corporal", descripcion = "Excelente para amplitud de espalda.", imagenUrl = null, videoUrl = null)
+                )
+            ),
+            onRefresh = {}
+        )
     }
 }
