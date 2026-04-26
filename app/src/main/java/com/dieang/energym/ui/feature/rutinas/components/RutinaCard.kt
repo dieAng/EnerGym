@@ -40,7 +40,7 @@ fun RutinaCard(
             modifier = Modifier
                 .padding(16.dp)
                 .height(100.dp),
-            verticalAlignment = Alignment.CenterHorizontally
+            verticalAlignment = Alignment.CenterVertically
         ) {
             // Icono destacado de la rutina
             Box(
