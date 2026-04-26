@@ -25,6 +25,9 @@ import androidx.compose.ui.unit.sp
 import com.dieang.energym.ui.components.ConfettiEffect
 import com.dieang.energym.ui.theme.*
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
+
 @Composable
 fun SesionSummaryScreen(
     resumen: SesionResumenUI,
@@ -161,5 +164,23 @@ fun SummaryStat(icon: androidx.compose.ui.graphics.vector.ImageVector, value: St
         Spacer(Modifier.height(8.dp))
         Text(text = value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = EnerGymTextPrimary)
         Text(text = label, fontSize = 12.sp, color = EnerGymTextSecondary)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SesionSummaryScreenPreview() {
+    EnerGymTheme {
+        SesionSummaryScreen(
+            resumen = SesionResumenUI(
+                tiempoTotal = "45:12",
+                caloriasTotales = 450,
+                energiaTotal = 120,
+                puntosGanados = 250,
+                logrosDesbloqueados = listOf("Rayo Veloz", "Fuerza Pura")
+            ),
+            onShare = {},
+            onClose = {}
+        )
     }
 }
