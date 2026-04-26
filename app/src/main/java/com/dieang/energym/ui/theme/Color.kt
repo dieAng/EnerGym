@@ -19,13 +19,14 @@ val EnerGymPurple = Color(0xFF8B5CF6) // Para gradientes
 val EnerGymOrange = Color(0xFFFF9500) // Para rachas de fuego
 val EnerGymLightOrange = Color(0xFFFFF7E6) // Fondo racha fuego
 
-val EnerGymBackground = Color(0xFFF8FAFC) // Fondo grisáceo muy claro de la app
+val EnerGymBackground = Color(0xFFFFFFFF) // Fondo blanco puro para la app (Figma)
 val EnerGymSurface = Color(0xFFFFFFFF) // Blanco puro para tarjetas
 val EnerGymTextPrimary = Color(0xFF1E293B) // Azul oscuro casi negro para texto principal
 val EnerGymTextSecondary = Color(0xFF64748B) // Gris para texto secundario
-val EnerGymDivider = Color(0xFFE2E8F0) // Color de bordes y divisores
+val EnerGymDivider = Color(0xFFF1F5F9) // Color de bordes y divisores muy suave
 
 val EnerGymDarkBackground = Color(0xFF0A0A0A) // Fondo oscuro profundo para efectos neón
+val EnerGymDarkSurface = Color(0xFF1E1E1E) // Superficie oscura
 
 val ElectricBlue = Color(0xFF1D5DFF)
 val NeonGreen = Color(0xFF00C566)

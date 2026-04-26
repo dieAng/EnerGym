@@ -3,15 +3,16 @@ package com.dieang.energym.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import com.dieang.energym.ui.feature.auth.components.authNavGraph
 import com.dieang.energym.ui.feature.splash.components.splashNavGraph
-import com.dieang.energym.ui.feature.home.components.homeNavGraph
-import com.dieang.energym.ui.feature.recetas.components.recetasNavGraph
-import com.dieang.energym.ui.feature.rutinas.components.rutinasNavGraph
-import com.dieang.energym.ui.feature.sesiones.components.sesionesNavGraph
-import com.dieang.energym.ui.feature.posts.components.postsNavGraph
-import com.dieang.energym.ui.feature.mensajes.components.mensajesNavGraph
-import com.dieang.energym.ui.feature.usuario.components.usuarioNavGraph
+import com.dieang.energym.ui.feature.home.components.HomeNavGraph
+import com.dieang.energym.ui.feature.recetas.components.RecetasNavGraph
+import com.dieang.energym.ui.feature.rutinas.components.RutinasNavGraph
+import com.dieang.energym.ui.feature.sesiones.components.SesionesNavGraph
+import com.dieang.energym.ui.feature.posts.components.PostsNavGraph
+import com.dieang.energym.ui.feature.mensajes.components.MensajesNavGraph
+import com.dieang.energym.ui.feature.usuario.components.UsuarioNavGraph
 
 @Composable
 fun AppNavHost(
@@ -29,38 +30,59 @@ fun AppNavHost(
         authNavGraph(navController)
 
         // Home (requiere autenticación)
-        AuthGuard(navController) {
-            homeNavGraph(navController)
+        composable(Routes.HOME) {
+            AuthGuard(
+                content = { HomeNavGraph(navController) },
+                onNotLoggedIn = { navController.navigate(Routes.LOGIN) }
+            )
         }
 
         // Recetas
-        AuthGuard(navController) {
-            recetasNavGraph(navController)
+        composable(Routes.RECETAS) {
+            AuthGuard(
+                content = { RecetasNavGraph(navController) },
+                onNotLoggedIn = { navController.navigate(Routes.LOGIN) }
+            )
         }
 
         // Rutinas
-        AuthGuard(navController) {
-            rutinasNavGraph(navController)
+        composable(Routes.RUTINAS) {
+            AuthGuard(
+                content = { RutinasNavGraph(navController) },
+                onNotLoggedIn = { navController.navigate(Routes.LOGIN) }
+            )
         }
 
         // Sesiones
-        AuthGuard(navController) {
-            sesionesNavGraph(navController)
+        composable(Routes.SESIONES) {
+            AuthGuard(
+                content = { SesionesNavGraph(navController) },
+                onNotLoggedIn = { navController.navigate(Routes.LOGIN) }
+            )
         }
 
         // Posts
-        AuthGuard(navController) {
-            postsNavGraph(navController)
+        composable(Routes.POSTS) {
+            AuthGuard(
+                content = { PostsNavGraph(navController) },
+                onNotLoggedIn = { navController.navigate(Routes.LOGIN) }
+            )
         }
 
         // Mensajes
-        AuthGuard(navController) {
-            mensajesNavGraph(navController)
+        composable(Routes.MENSAJES) {
+            AuthGuard(
+                content = { MensajesNavGraph(navController) },
+                onNotLoggedIn = { navController.navigate(Routes.LOGIN) }
+            )
         }
 
         // Perfil / Usuarios
-        AuthGuard(navController) {
-            usuarioNavGraph(navController)
+        composable(Routes.USUARIOS) {
+            AuthGuard(
+                content = { UsuarioNavGraph(navController) },
+                onNotLoggedIn = { navController.navigate(Routes.LOGIN) }
+            )
         }
     }
 }

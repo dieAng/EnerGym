@@ -58,6 +58,7 @@ class SyncWorker @AssistedInject constructor(
         val noSincronizados = postDao.getNoSincronizados()
         noSincronizados.forEach { post ->
             val request = PostCreateRequestDto(
+                usuarioId = post.usuarioId,
                 contenido = post.contenido,
                 imagenUrl = post.imagenUrl,
                 energiaGenerada = post.energiaGenerada
@@ -73,8 +74,8 @@ class SyncWorker @AssistedInject constructor(
         val noSincronizados = sesionDao.getNoSincronizados()
         noSincronizados.forEach { sesion ->
             val request = SesionCreateRequestDto(
-                rutinaId = sesion.rutinaId!!,
-                fecha = sesion.fecha
+                usuarioId = sesion.usuarioId,
+                rutinaId = sesion.rutinaId!!
             )
             // Simular envío a la API
             sesionApi.createSesion(request)
