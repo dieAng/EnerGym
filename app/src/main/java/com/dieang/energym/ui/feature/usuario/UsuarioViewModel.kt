@@ -62,7 +62,7 @@ class UsuarioViewModel @Inject constructor(
             val sesiones = getSesiones()
             
             // Calcular estadísticas totales
-            val energiaTotal = sesiones.sumOf { it.energiaGenerada ?: 0 }
+            val energiaTotal = sesiones.sumOf { it.energiaGeneradaWh ?: 0 }
             
             val perfilStats = PerfilStats(
                 entrenamientos = sesiones.size,
@@ -78,7 +78,7 @@ class UsuarioViewModel @Inject constructor(
                     id = sesion.id.toString(),
                     fecha = dateFormat.format(Date(sesion.fecha)),
                     duracion = formatDuration(sesion.duracionSegundos ?: 0),
-                    energia = sesion.energiaGenerada ?: 0,
+                    energia = sesion.energiaGeneradaWh ?: 0,
                     calorias = sesion.caloriasQuemadas ?: 0,
                     rutinaNombre = "Entrenamiento Libre"
                 )
