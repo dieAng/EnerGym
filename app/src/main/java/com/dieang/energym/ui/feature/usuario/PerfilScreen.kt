@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -37,7 +38,7 @@ fun PerfilScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(EnerGymDarkBackground)
+                .background(EnerGymBackground)
                 .verticalScroll(rememberScrollState())
                 .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -53,7 +54,7 @@ fun PerfilScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Volver",
-                            tint = Color.White
+                            tint = EnerGymTextPrimary
                         )
                     }
                 } else {
@@ -86,24 +87,68 @@ fun PerfilScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // 3. Historial de Sesiones
-            HistorialSection(
-                sesiones = state.historialSesiones,
-                onSesionClick = onSesionClick,
-                title = if (isPublicProfile) "Actividad Reciente" else "Tu Historial"
-            )
+            // 3. Logros Desbloqueados
+            LogrosSection()
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // 4. Opciones de Menú (Solo si es mi perfil)
-            if (!isPublicProfile) {
-                MenuOptions(
-                    onNavigateSettings = onNavigateSettings,
-                    onNavigateStats = onNavigateStats
-                )
-            }
+            // 4. Opciones de Menú
+            MenuOptions(
+                onNavigateSettings = onNavigateSettings,
+                onNavigateStats = onNavigateStats
+            )
 
             Spacer(modifier = Modifier.height(32.dp))
+        }
+    }
+}
+
+@Composable
+private fun LogrosSection() {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = "Logros Desbloqueados",
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            color = EnerGymTextPrimary
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            LogroBadge(icon = "🎯", label = "Primera Rutina", color = EnerGymLightOrange, modifier = Modifier.weight(1f))
+            LogroBadge(icon = "🔥", label = "Racha de 7 días", color = EnerGymLightOrange, modifier = Modifier.weight(1f))
+            LogroBadge(icon = "💪", label = "Racha de 30 días", color = EnerGymLightOrange, modifier = Modifier.weight(1f))
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            LogroBadge(icon = "👨‍🍳", label = "Maestro Chef", color = EnerGymLightOrange, modifier = Modifier.weight(1f))
+            LogroBadge(icon = "🦋", label = "Social Butterfly", color = EnerGymDivider, modifier = Modifier.weight(1f), unlocked = false)
+            LogroBadge(icon = "🏆", label = "Racha de 100 días", color = EnerGymDivider, modifier = Modifier.weight(1f), unlocked = false)
+        }
+    }
+}
+
+@Composable
+private fun LogroBadge(icon: String, label: String, color: Color, modifier: Modifier, unlocked: Boolean = true) {
+    Surface(
+        modifier = modifier.height(110.dp),
+        shape = RoundedCornerShape(16.dp),
+        color = color.copy(alpha = if (unlocked) 1f else 0.5f)
+    ) {
+        Column(
+            modifier = Modifier.padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(text = icon, fontSize = 28.sp, modifier = Modifier.graphicsLayer(alpha = if (unlocked) 1f else 0.3f))
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = label,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                color = if (unlocked) EnerGymTextPrimary else EnerGymTextSecondary,
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
@@ -118,21 +163,44 @@ private fun ProfileHeader(nombre: String, username: String) {
                 .background(Brush.linearGradient(PrimaryGradient))
                 .padding(3.dp)
                 .clip(CircleShape)
-                .background(EnerGymDarkBackground),
+                .background(EnerGymBackground),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = null,
                 modifier = Modifier.size(50.dp),
-                tint = Color.White
+                tint = EnerGymTextSecondary
             )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(text = nombre, fontSize = 24.sp, fontWeight = FontWeight.Black, color = Color.White)
+        Text(text = nombre, fontSize = 24.sp, fontWeight = FontWeight.Black, color = EnerGymTextPrimary)
         Text(text = username, fontSize = 14.sp, color = EnerGymTextSecondary)
+        
+        Spacer(modifier = Modifier.height(12.dp))
+        
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            LevelTag(text = "Nivel Intermedio")
+            LevelTag(text = "Hipertrofia")
+        }
+    }
+}
+
+@Composable
+private fun LevelTag(text: String) {
+    Surface(
+        color = EnerGymDivider,
+        shape = RoundedCornerShape(20.dp)
+    ) {
+        Text(
+            text = text,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Bold,
+            color = EnerGymTextSecondary,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+        )
     }
 }
 
@@ -142,9 +210,9 @@ private fun ImpactStatsRow(stats: PerfilStats) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        StatCard(value = "${stats.energiaTotalWh}", label = "Wh Totales", icon = Icons.Default.ElectricBolt, color = EnerGymBlue, modifier = Modifier.weight(1f))
-        StatCard(value = "${stats.entrenamientos}", label = "Sesiones", icon = Icons.Default.FitnessCenter, color = EnerGymGreen, modifier = Modifier.weight(1f))
-        StatCard(value = "${stats.rachaMaxima}", label = "Días Racha", icon = Icons.Default.Whatshot, color = EnerGymOrange, modifier = Modifier.weight(1f))
+        StatCard(value = "${stats.entrenamientos}", label = "Entrenamientos", icon = Icons.Default.CalendarToday, color = EnerGymBlue, modifier = Modifier.weight(1f))
+        StatCard(value = "${stats.rachaMaxima}", label = "Racha Máxima", icon = Icons.Default.EmojiEvents, color = EnerGymPurple, modifier = Modifier.weight(1f))
+        StatCard(value = "23", label = "PRs Logrados", icon = Icons.Default.TrendingUp, color = EnerGymBlue, modifier = Modifier.weight(1f))
     }
 }
 
@@ -153,16 +221,18 @@ private fun StatCard(value: String, label: String, icon: ImageVector, color: Col
     Surface(
         modifier = modifier,
         shape = RoundedCornerShape(24.dp),
-        color = Color(0xFF1A1A1A),
+        color = Color.White,
+        border = BorderStroke(1.dp, EnerGymDivider),
+        shadowElevation = 2.dp
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(icon, contentDescription = null, tint = color, modifier = Modifier.size(20.dp))
+            Icon(icon, contentDescription = null, tint = color, modifier = Modifier.size(24.dp))
             Spacer(Modifier.height(8.dp))
-            Text(text = value, fontSize = 20.sp, fontWeight = FontWeight.Black, color = Color.White)
-            Text(text = label, fontSize = 10.sp, color = EnerGymTextSecondary)
+            Text(text = value, fontSize = 24.sp, fontWeight = FontWeight.Black, color = EnerGymTextPrimary)
+            Text(text = label, fontSize = 11.sp, color = EnerGymTextSecondary)
         }
     }
 }
@@ -241,15 +311,16 @@ private fun MenuButton(icon: ImageVector, title: String, onClick: () -> Unit) {
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        color = Color(0xFF1A1A1A)
+        color = Color.White,
+        border = BorderStroke(1.dp, EnerGymDivider)
     ) {
         Row(
             modifier = Modifier.padding(18.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(imageVector = icon, contentDescription = null, tint = Color.White.copy(alpha = 0.7f), modifier = Modifier.size(20.dp))
+            Icon(imageVector = icon, contentDescription = null, tint = EnerGymTextPrimary, modifier = Modifier.size(20.dp))
             Spacer(modifier = Modifier.width(16.dp))
-            Text(text = title, color = Color.White, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
+            Text(text = title, color = EnerGymTextPrimary, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
             Icon(imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null, tint = EnerGymTextSecondary, modifier = Modifier.size(20.dp))
         }
     }
