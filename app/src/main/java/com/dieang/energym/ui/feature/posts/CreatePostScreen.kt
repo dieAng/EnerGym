@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dieang.energym.domain.model.SesionEntrenamiento
 import com.dieang.energym.ui.theme.*
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -191,5 +193,25 @@ fun SesionChip(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CreatePostScreenPreview() {
+    val userId = UUID.randomUUID()
+    EnerGymTheme {
+        CreatePostScreen(
+            usuarioId = userId,
+            state = PostState(
+                misSesionesRecientes = listOf(
+                    SesionEntrenamiento(id = UUID.randomUUID(), usuarioId = userId, rutinaId = UUID.randomUUID(), fecha = System.currentTimeMillis(), duracionSegundos = 3600, energiaGeneradaWh = 120),
+                    SesionEntrenamiento(id = UUID.randomUUID(), usuarioId = userId, rutinaId = UUID.randomUUID(), fecha = System.currentTimeMillis() - 86400000, duracionSegundos = 3000, energiaGeneradaWh = 95)
+                )
+            ),
+            onPostClick = { _, _, _ -> },
+            onBack = {},
+            onResetCreated = {}
+        )
     }
 }

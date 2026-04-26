@@ -31,6 +31,9 @@ import androidx.compose.ui.unit.sp
 import com.dieang.energym.ui.theme.*
 import kotlinx.coroutines.launch
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.dieang.energym.ui.theme.EnerGymTheme
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PostsScreen(
@@ -325,5 +328,66 @@ fun LogroCard(logro: TipoPost.Logro) {
                 Text(text = logro.dias, fontSize = 14.sp, color = EnerGymOrange, fontWeight = FontWeight.Bold)
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PostsScreenPreview() {
+    val userId = UUID.randomUUID()
+    EnerGymTheme {
+        PostsScreen(
+            state = PostState(
+                stories = listOf(
+                    StoryUI("1", "Tú", null, esUsuarioActual = true),
+                    StoryUI("2", "Carlos", null, vista = false),
+                    StoryUI("3", "Marta", null, vista = true),
+                    StoryUI("4", "Juan", null, vista = false)
+                ),
+                posts = listOf(
+                    PostUI(
+                        id = UUID.randomUUID(),
+                        usuarioId = userId,
+                        usuarioNombre = "Carlos Ruiz",
+                        usuarioFotoUrl = null,
+                        tiempoHace = "2h",
+                        contenido = "¡Nuevo récord en Press de Banca! La energía generada hoy ha sido increíble.",
+                        tipoPost = TipoPost.Record("Press de Banca", "100 kg x 5", "+5 kg"),
+                        energiaWh = 85,
+                        numLikes = 12,
+                        numComentarios = 3,
+                        isLiked = true
+                    ),
+                    PostUI(
+                        id = UUID.randomUUID(),
+                        usuarioId = UUID.randomUUID(),
+                        usuarioNombre = "Ana García",
+                        usuarioFotoUrl = null,
+                        tiempoHace = "5h",
+                        contenido = "Esta receta de avena me da toda la energía necesaria para mi entrenamiento matutino.",
+                        tipoPost = TipoPost.Receta("Avena Energética", "350 kcal", "10 min"),
+                        numLikes = 24,
+                        numComentarios = 8
+                    ),
+                    PostUI(
+                        id = UUID.randomUUID(),
+                        usuarioId = UUID.randomUUID(),
+                        usuarioNombre = "Marta López",
+                        usuarioFotoUrl = null,
+                        tiempoHace = "12h",
+                        contenido = "¡15 días seguidos entrenando! Me siento con más vitalidad que nunca.",
+                        tipoPost = TipoPost.Logro("Racha Imparable", "15 DÍAS"),
+                        energiaWh = 120,
+                        numLikes = 45,
+                        numComentarios = 15
+                    )
+                )
+            ),
+            onLikePost = {},
+            onCommentPost = {},
+            onUserClick = {},
+            onCreatePost = {},
+            onRefresh = {}
+        )
     }
 }
