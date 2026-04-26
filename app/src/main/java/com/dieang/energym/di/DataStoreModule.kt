@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.dataStoreFile
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
+import com.dieang.energym.data.local.datastore.DataStoreTokenProvider
 import com.dieang.energym.data.local.datastore.TokenProvider
 import com.dieang.energym.data.local.datastore.UserDataStore
 import com.dieang.energym.data.local.datastore.UserStore
@@ -31,7 +32,7 @@ object DataStoreModule {
     @Provides @Singleton
     fun provideTokenProvider(
         dataStore: DataStore<Preferences>
-    ): TokenProvider = TokenDataStore(dataStore)
+    ): TokenProvider = DataStoreTokenProvider(dataStore)
 
     @Provides @Singleton
     fun provideUserStore(
