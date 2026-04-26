@@ -108,10 +108,11 @@ fun StoryItem(story: StoryUI) {
             modifier = Modifier
                 .size(64.dp)
                 .border(
-                    BorderStroke(
-                        2.dp,
-                        if (story.vista) EnerGymDivider else Brush.linearGradient(PrimaryGradient)
-                    ),
+                    if (story.vista) {
+                        BorderStroke(2.dp, EnerGymDivider)
+                    } else {
+                        BorderStroke(2.dp, Brush.linearGradient(PrimaryGradient))
+                    },
                     CircleShape
                 )
                 .padding(3.dp)

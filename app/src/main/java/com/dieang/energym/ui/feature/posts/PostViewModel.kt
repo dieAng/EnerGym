@@ -2,6 +2,7 @@ package com.dieang.energym.ui.feature.posts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dieang.energym.domain.model.Comentario
 import com.dieang.energym.domain.usecase.posts.CreatePostUseCase
 import com.dieang.energym.domain.usecase.posts.GetPostsUseCase
 import com.dieang.energym.domain.usecase.posts.LikePostUseCase
@@ -140,6 +141,41 @@ class PostViewModel @Inject constructor(
         }
     }
 
-    fun loadPostDetalle(id: UUID) { /* Implementar si es necesario */ }
-    fun comentar(postId: UUID, usuarioId: UUID, texto: String) { /* Implementar si es necesario */ }
+    fun loadPostDetalle(id: UUID) = viewModelScope.launch {
+        _state.update { it.copy(isLoading = true) }
+        
+        // Buscamos en los posts cargados o en una implementación real llamaríamos al repo
+        val post = _state.value.posts.find { it.id == id }
+        
+        // Simulamos comentarios
+        val dummyComentarios = listOf(
+            Comentario(UUID.randomUUID(), id, UUID.randomUUID(), "¡Increíble progreso! Sigue así.", System.currentTimeMillis()),
+            Comentario(UUID.randomUUID(), id, UUID.randomUUID(), "Me encanta esa rutina, la probaré mañana.", System.currentTimeMillis())
+        )
+
+        _state.update { 
+            it.copy(
+                isLoading = false,
+                postSeleccionado = post,
+                comentarios = dummyComentarios
+            )
+        }
+    }
+
+    fun comentar(postId: UUID, usuarioId: UUID, texto: String) = viewModelScope.launch {
+        // En una implementación real llamaríamos a addComentarioUseCase
+        val nuevoComentario = Comentario(
+            id = UUID.randomUUID(),
+            postId = postId,
+            usuarioId = usuarioId,
+            contenido = texto,
+            fecha = System.currentTimeMillis()
+        )
+        
+        _state.update { currentState ->
+            currentState.copy(
+                comentarios = currentState.comentarios + nuevoComentario
+            )
+        }
+    }
 }

@@ -10,6 +10,8 @@ data class PostState(
     val posts: List<PostUI> = emptyList(),
     val stories: List<StoryUI> = emptyList(),
     val misSesionesRecientes: List<SesionEntrenamiento> = emptyList(),
+    val postSeleccionado: PostUI? = null,
+    val comentarios: List<Comentario> = emptyList(),
     val isPostCreated: Boolean = false,
     val error: String? = null
 )
