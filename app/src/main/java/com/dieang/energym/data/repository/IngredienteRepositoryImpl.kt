@@ -15,14 +15,13 @@ class IngredienteRepositoryImpl(
 ) : IngredienteRepository {
 
     override suspend fun getIngredientesByReceta(recetaId: UUID): List<Ingrediente> =
-        dao.getByReceta(recetaId)
+        dao.getByReceta(recetaId).map { it.toDomain() }
 
     override suspend fun createIngrediente(
         recetaId: UUID,
         request: IngredienteCreateRequestDto
     ): Ingrediente {
-        val response = api.createIngrediente(request)
-        val entity = response.toEntity(recetaId)
+        val entity = request.toEntity(recetaId)
         dao.insert(entity)
         return entity.toDomain()
     }
