@@ -8,7 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ChevronRight
+import androidx.compose.material.icons.automirrored.filled.ArrowRight
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.LocalFireDepartment
@@ -187,7 +187,7 @@ fun RecetaListItem(receta: RecetaUI, onClick: () -> Unit) {
                     }
                 }
             }
-            Icon(Icons.AutoMirrored.Filled.ChevronRight, contentDescription = null, tint = EnerGymDivider)
+            Icon(Icons.AutoMirrored.Filled.ArrowRight, contentDescription = null, tint = EnerGymDivider)
         }
     }
 }

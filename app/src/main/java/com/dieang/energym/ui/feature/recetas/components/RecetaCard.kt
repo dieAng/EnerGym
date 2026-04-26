@@ -41,7 +41,7 @@ fun RecetaCard(
             modifier = Modifier
                 .padding(12.dp)
                 .height(110.dp),
-            verticalAlignment = Alignment.CenterHorizontally
+            verticalAlignment = Alignment.CenterVertically
         ) {
             // Imagen de la receta (Simulada con un Box si no hay URL)
             Box(
@@ -83,11 +83,11 @@ fun RecetaCard(
                 }
 
                 Row(
-                    verticalAlignment = Alignment.CenterHorizontally,
+                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     // Tiempo de preparación
-                    Row(verticalAlignment = Alignment.CenterHorizontally) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.AccessTime,
                             contentDescription = null,
