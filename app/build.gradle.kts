@@ -27,11 +27,16 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+                buildConfigField("String", "BASE_URL", "\"https://energym-api-fcb7awa7gugef3fp.spaincentral-01.azurewebsites.net/\"")
+        }
+        debug {
+            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:5000/\"")
         }
     }
     compileOptions {
@@ -43,6 +48,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
