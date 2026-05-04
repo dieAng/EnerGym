@@ -26,6 +26,9 @@ interface SesionEntrenamientoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(sesionEntrenamiento: SesionEntrenamientoEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(sesiones: List<SesionEntrenamientoEntity>)
+
     @Delete
     suspend fun delete(sesionEntrenamiento: SesionEntrenamientoEntity)
 }

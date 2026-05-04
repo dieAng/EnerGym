@@ -9,7 +9,10 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.dieang.energym.data.worker.SyncWorker
+import com.dieang.energym.data.local.DatabaseSeeder
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -19,6 +22,9 @@ class EnerGymApp : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
+    @Inject
+    lateinit var databaseSeeder: DatabaseSeeder
+
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -27,6 +33,11 @@ class EnerGymApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         setupSyncWorker()
+        
+        // Ejecutar el seeder al iniciar la app para tener datos de prueba
+        MainScope().launch {
+            databaseSeeder.seed()
+        }
     }
 
     private fun setupSyncWorker() {
