@@ -22,9 +22,7 @@ class RecetaRepositoryImpl(
 
         remote.forEach { receta ->
             dao.insert(receta.toEntity())
-            ingredienteDao.insertAll(
-                receta.ingredientes.map { it.toEntity(receta.id) }
-            )
+            // Los ingredientes se tendran que obtener en otra llamada
         }
     }
 
@@ -39,16 +37,15 @@ class RecetaRepositoryImpl(
         val entity = response.toEntity()
 
         dao.insert(entity)
-        ingredienteDao.insertAll(
-            response.ingredientes.map { it.toEntity(entity.id) }
-        )
 
         return entity.toDomain()
     }
 
-    override suspend fun updateReceta(id: UUID, request: RecetaUpdateRequestDto) {
-        val response = api.updateReceta(id, request)
-        dao.insert(response.toEntity())
+    override suspend fun updateReceta(
+        id: UUID,
+        request: RecetaUpdateRequestDto
+    ) {
+        TODO("Not yet implemented")
     }
 
     override suspend fun deleteReceta(id: UUID) {
@@ -56,4 +53,3 @@ class RecetaRepositoryImpl(
         dao.getById(id)?.let { dao.delete(it) }
     }
 }
-

@@ -9,7 +9,7 @@ data class RecetaCreateRequestDto(
     val alergenos: String?,
     val imagenUrl: String?,
     val descripcion: String?,
-    val ingredientes: List<IngredienteCreateRequestDto>
+    val esPredisenada: Boolean
 )
 
 data class RecetaUpdateRequestDto(

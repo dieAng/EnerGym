@@ -6,27 +6,25 @@ El módulo `data` es responsable de la persistencia de datos y de la comunicaci�
 
 ### [local](local/)
 Gestiona la persistencia local de la aplicación:
-- **Room**: Base de datos SQLite (`EnergymDatabase`).
+- **Room**: Base de datos SQLite (`EnerGymDatabase`).
 - **DAOs**: Objetos de acceso a datos para cada entidad.
-- **DataStore**: Almacenamiento de preferencias del usuario y tokens de sesión.
+- **DataStore**: Almacenamiento de preferencias del usuario y perfil de sesión simplificado.
 
 ### [remote](remote/)
-Encargado de la comunicación con el servidor:
-- **API Interfaces**: Definiciones de Retrofit para los servicios web.
-- **DTOs**: Objetos de transferencia de datos optimizados para la red.
+Encargado de la comunicación con el servidor de Azure:
+- **API Interfaces**: Definiciones de Retrofit para los servicios web (Auth, Usuario, Rutinas, etc.).
+- **DTOs**: Objetos de transferencia de datos para la comunicación con el backend.
 
 ### [repository](repository/)
-Contiene las implementaciones de los repositorios de Domain. Aquí se orquesta la lógica de cuándo obtener datos de la red o de la base de datos local (Offline-first approach).
+Contiene las implementaciones de los repositorios. Orquesta la lógica de acceso a datos siguiendo un enfoque Offline-first.
 
 ### [mappers](mappers/)
-Funciones de conversión para transformar objetos entre las diferentes capas:
-- `DTO` ↔ `Entity`
-- `Entity` ↔ `Domain Model`
+Funciones de conversión para transformar objetos entre capas (`DTO` ↔ `Entity` ↔ `Domain Model`).
 
 ### [worker](worker/)
-Implementación de `SyncWorker` mediante **WorkManager** para la sincronización automática en segundo plano de datos pendientes.
+Implementación de `SyncWorker` mediante **WorkManager** para la sincronización automática de datos.
 
 ## 📌 Responsabilidades
-- Implementar la lógica de acceso a datos.
-- Gestionar el almacenamiento en caché y la sincronización offline.
-- Realizar el mapeo de datos crudos a modelos de dominio limpios.
+- Implementar la lógica de acceso a datos y caché.
+- Gestionar la sesión del usuario de forma simplificada en `UserStore`.
+- Realizar el mapeo de datos a modelos de dominio.

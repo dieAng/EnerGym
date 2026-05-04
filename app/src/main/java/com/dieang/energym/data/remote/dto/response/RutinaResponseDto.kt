@@ -9,6 +9,5 @@ data class RutinaResponseDto(
     val descripcion: String?,
     val nivel: String?,
     val objetivo: String?,
-    val esPredisenada: Boolean,
-    val ejercicios: List<RutinaEjercicioResponseDto>
+    val esPredisenada: Boolean
 )

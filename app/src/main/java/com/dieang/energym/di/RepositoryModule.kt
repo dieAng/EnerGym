@@ -1,29 +1,8 @@
 package com.dieang.energym.di
 
-import com.dieang.energym.data.local.dao.ComentarioDao
-import com.dieang.energym.data.local.dao.EjercicioDao
-import com.dieang.energym.data.local.dao.HistorialPesoDao
-import com.dieang.energym.data.local.dao.IngredienteDao
-import com.dieang.energym.data.local.dao.MensajeDao
-import com.dieang.energym.data.local.dao.PostDao
-import com.dieang.energym.data.local.dao.RecetaDao
-import com.dieang.energym.data.local.dao.RutinaDao
-import com.dieang.energym.data.local.dao.RutinaEjercicioDao
-import com.dieang.energym.data.local.dao.SerieRealizadaDao
-import com.dieang.energym.data.local.dao.SesionEntrenamientoDao
-import com.dieang.energym.data.local.dao.UsuarioDao
-import com.dieang.energym.data.local.datastore.TokenProvider
+import com.dieang.energym.data.local.dao.*
 import com.dieang.energym.data.local.datastore.UserStore
-import com.dieang.energym.data.remote.api.AuthApi
-import com.dieang.energym.data.remote.api.ComentarioApi
-import com.dieang.energym.data.remote.api.EjercicioApi
-import com.dieang.energym.data.remote.api.IngredienteApi
-import com.dieang.energym.data.remote.api.MensajeApi
-import com.dieang.energym.data.remote.api.PostApi
-import com.dieang.energym.data.remote.api.RecetaApi
-import com.dieang.energym.data.remote.api.RutinaApi
-import com.dieang.energym.data.remote.api.SesionEntrenamientoApi
-import com.dieang.energym.data.remote.api.UsuarioApi
+import com.dieang.energym.data.remote.api.*
 import com.dieang.energym.data.repository.*
 import com.dieang.energym.domain.repository.*
 import dagger.Module
@@ -40,9 +19,9 @@ object RepositoryModule {
     @Singleton
     fun provideAuthRepository(
         api: AuthApi,
-        tokenStore: TokenProvider,
+        usuarioApi: UsuarioApi,
         userStore: UserStore
-    ): AuthRepository = AuthRepositoryImpl(api, tokenStore, userStore)
+    ): AuthRepository = AuthRepositoryImpl(api, usuarioApi, userStore)
 
     @Provides @Singleton
     fun provideUsuarioRepository(

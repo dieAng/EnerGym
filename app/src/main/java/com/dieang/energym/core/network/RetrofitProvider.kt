@@ -7,11 +7,8 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitProvider {
 
-    fun createOkHttpClient(
-        authInterceptor: AuthInterceptor
-    ): OkHttpClient =
+    fun createOkHttpClient(): OkHttpClient =
         OkHttpClient.Builder()
-            .addInterceptor(authInterceptor)
             .connectTimeout(NetworkConfig.TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .readTimeout(NetworkConfig.TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .writeTimeout(NetworkConfig.TIMEOUT_SECONDS, TimeUnit.SECONDS)

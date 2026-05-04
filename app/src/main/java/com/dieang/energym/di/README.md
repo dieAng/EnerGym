@@ -1,17 +1,17 @@
 # Módulo DI (Dependency Injection) 💉
 
-El módulo `di` contiene la configuración de **Hilt** para gestionar la inyección de dependencias en toda la aplicación.
+El módulo `di` gestiona la inyección de dependencias mediante **Hilt**, centralizando la creación y provisión de componentes en toda la app.
 
 ## 📦 Contenido
 
-### Módulos de Provisión
-- **[NetworkModule](NetworkModule.kt)**: Provee instancias de Retrofit, OkHttp y las interfaces de las APIs.
-- **[DatabaseModule](DataStoreModule.kt)** (incluye DataStore): Provee la base de datos Room, los DAOs y los gestores de preferencias.
-- **[RepositoryModule](RepositoryModule.kt)**: Vincula las interfaces de los repositorios de Domain con sus implementaciones en Data.
-- **[UseCaseModule](UseCaseModule.kt)**: Provee las instancias de los Casos de Uso.
-- **[ViewModelModule](ViewModelModule.kt)**: Configuración para la inyección de ViewModels.
+### Módulos Hilt
+- **[NetworkModule](NetworkModule.kt)**: Provee OkHttpClient, Retrofit y todas las interfaces de las APIs.
+- **[DatabaseModule](DatabaseModule.kt)**: Provee la base de datos Room y sus DAOs.
+- **[DataStoreModule](DataStoreModule.kt)**: Provee la instancia de DataStore y el gestor de perfil `UserStore`.
+- **[RepositoryModule](RepositoryModule.kt)**: Vincula interfaces de repositorio con sus implementaciones.
+- **[UseCaseModule](UseCaseModule.kt)**: Provee todos los casos de uso del dominio (Auth, Rutinas, Sesiones, etc.).
 
 ## 📌 Responsabilidades
-- Desacoplar la creación de objetos de su uso.
-- Facilitar el intercambio de implementaciones para pruebas unitarias.
-- Centralizar la configuración de librerías de terceros.
+- Desacoplar la instanciación de clases de su uso.
+- Proveer dependencias de forma eficiente respetando los alcances (`Singleton`, `ViewModelScoped`, etc.).
+- Centralizar la configuración de librerías externas.

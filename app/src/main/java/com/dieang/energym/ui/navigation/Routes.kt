@@ -27,6 +27,7 @@ object Routes {
     // SESIONES
     const val SESIONES = "sesiones"
     const val SESION_DETAIL = "sesion/{id}"
+    const val SESION_ACTIVA = "sesion_activa/{rutinaId}"
 
     // POSTS
     const val POSTS = "posts"
