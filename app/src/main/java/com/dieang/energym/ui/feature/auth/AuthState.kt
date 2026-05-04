@@ -5,6 +5,6 @@ import com.dieang.energym.domain.model.Usuario
 data class AuthState(
     val isLoading: Boolean = false,
     val usuario: Usuario? = null,
-    val isLoggedIn: Boolean = false,
+    val isLoggedIn: Boolean? = null,
     val error: String? = null
 )

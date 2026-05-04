@@ -29,6 +29,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavController) {
             RegisterScreen(
                 state = vm.state.collectAsState().value,
                 onRegister = vm::register,
+                onSuccess = { navController.navigate(Routes.HOME) },
                 onNavigateLogin = { navController.navigate(Routes.LOGIN) }
             )
         }

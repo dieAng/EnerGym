@@ -32,8 +32,13 @@ import com.dieang.energym.ui.theme.EnerGymTheme
 fun RegisterScreen(
     state: AuthState,
     onRegister: (String, String, String) -> Unit,
+    onSuccess: () -> Unit,
     onNavigateLogin: () -> Unit
 ) {
+    LaunchedEffect(state.isLoggedIn) {
+        if (state.isLoggedIn == true) onSuccess()
+    }
+
     var nombre by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -151,22 +156,31 @@ fun RegisterScreen(
             Spacer(Modifier.height(40.dp))
 
             // Botón de Registro
+            val isButtonEnabled = !state.isLoading && nombre.isNotBlank() && email.isNotBlank() && password.length >= 6
+            
             Button(
-                onClick = { onRegister(nombre, email, password) },
+                onClick = { 
+                    android.util.Log.d("RegisterScreen", "Botón presionado: $nombre, $email")
+                    onRegister(nombre, email, password) 
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp),
                 shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    disabledContainerColor = Color.Transparent
+                ),
                 contentPadding = PaddingValues(),
-                enabled = !state.isLoading && nombre.isNotBlank() && email.isNotBlank() && password.length >= 6
+                enabled = isButtonEnabled
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(
                             Brush.horizontalGradient(
-                                listOf(NeonGreen, ElectricBlue)
+                                if (isButtonEnabled) listOf(NeonGreen, ElectricBlue)
+                                else listOf(TextGray.copy(alpha = 0.3f), TextGray.copy(alpha = 0.2f))
                             )
                         ),
                     contentAlignment = Alignment.Center
@@ -179,7 +193,7 @@ fun RegisterScreen(
                     } else {
                         Text(
                             "REGISTRARME AHORA",
-                            color = Color.Black,
+                            color = if (isButtonEnabled) Color.Black else TextGray,
                             fontWeight = FontWeight.ExtraBold,
                             letterSpacing = 1.sp
                         )
@@ -217,6 +231,7 @@ private fun RegisterScreenPreview() {
         RegisterScreen(
             state = AuthState(),
             onRegister = { _, _, _ -> },
+            onSuccess = {},
             onNavigateLogin = {}
         )
     }

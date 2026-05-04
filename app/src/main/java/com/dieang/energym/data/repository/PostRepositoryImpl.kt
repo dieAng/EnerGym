@@ -23,9 +23,7 @@ class PostRepositoryImpl(
 
         remote.forEach { post ->
             dao.insert(post.toEntity())
-            comentarioDao.insertAll(
-                post.comentarios.map { it.toEntity(post.id) }
-            )
+            // Los comentarios se tienen que pedir en otra llamada o se asume que no vienen en el response plano
         }
     }
 
@@ -38,7 +36,7 @@ class PostRepositoryImpl(
             usuarioId = request.usuarioId,
             contenido = request.contenido,
             imagenUrl = request.imagenUrl,
-            energiaGenerada = request.energiaGenerada ?: 0.0,
+            energiaGenerada = request.energiaGenerada,
             fecha = System.currentTimeMillis(),
             sincronizado = false // Marcado para el Worker
         )
@@ -65,4 +63,3 @@ class PostRepositoryImpl(
         api.addComentario(postId, request)
     }
 }
-

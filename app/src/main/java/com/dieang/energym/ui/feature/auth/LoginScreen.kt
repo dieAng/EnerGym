@@ -37,7 +37,7 @@ fun LoginScreen(
     onNavigateToRegister: () -> Unit
 ) {
     LaunchedEffect(state.isLoggedIn) {
-        if (state.isLoggedIn) onSuccess()
+        if (state.isLoggedIn == true) onSuccess()
     }
 
     var email by remember { mutableStateOf("") }
@@ -143,22 +143,28 @@ fun LoginScreen(
             Spacer(Modifier.height(40.dp))
 
             // Botón de Login Neón
+            val isButtonEnabled = !state.isLoading && email.isNotBlank() && password.isNotBlank()
+
             Button(
                 onClick = { onLogin(email, password) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp),
                 shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    disabledContainerColor = Color.Transparent
+                ),
                 contentPadding = PaddingValues(),
-                enabled = !state.isLoading
+                enabled = isButtonEnabled
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(
                             Brush.horizontalGradient(
-                                listOf(NeonGreen, Color(0xFFCCFF00))
+                                if (isButtonEnabled) listOf(NeonGreen, Color(0xFFCCFF00))
+                                else listOf(TextGray.copy(alpha = 0.3f), TextGray.copy(alpha = 0.2f))
                             )
                         ),
                     contentAlignment = Alignment.Center
@@ -171,7 +177,7 @@ fun LoginScreen(
                     } else {
                         Text(
                             "INICIAR SESIÓN",
-                            color = Color.Black,
+                            color = if (isButtonEnabled) Color.Black else TextGray,
                             fontWeight = FontWeight.ExtraBold,
                             letterSpacing = 1.sp
                         )

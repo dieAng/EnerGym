@@ -8,5 +8,5 @@ data class RutinaCreateRequestDto(
     val descripcion: String?,
     val nivel: String?,
     val objetivo: String?,
-    val ejercicios: List<RutinaEjercicioCreateRequestDto>
+    val esPredisenada: Boolean
 )

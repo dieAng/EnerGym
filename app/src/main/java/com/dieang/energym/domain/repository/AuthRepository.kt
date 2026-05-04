@@ -11,8 +11,6 @@ interface AuthRepository {
 
     suspend fun register(request: UsuarioCreateRequestDto): UsuarioEntity
 
-    suspend fun refreshToken(): Boolean
-
     suspend fun logout()
 
     fun getLoggedUser(): Flow<Usuario?>

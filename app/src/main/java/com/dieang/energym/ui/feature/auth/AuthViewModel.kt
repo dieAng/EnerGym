@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.dieang.energym.domain.usecase.auth.GetLoggedUserUseCase
 import com.dieang.energym.domain.usecase.auth.LoginUserUseCase
 import com.dieang.energym.domain.usecase.auth.LogoutUserUseCase
+import com.dieang.energym.domain.usecase.auth.RegisterUserUseCase
+import com.dieang.energym.data.remote.dto.request.UsuarioCreateRequestDto
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +18,8 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val loginUser: LoginUserUseCase,
     private val logoutUser: LogoutUserUseCase,
-    private val getLoggedUser: GetLoggedUserUseCase
+    private val getLoggedUser: GetLoggedUserUseCase,
+    private val registerUser: RegisterUserUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(AuthState())
@@ -40,23 +43,28 @@ class AuthViewModel @Inject constructor(
     }
 
     fun login(email: String, password: String) = viewModelScope.launch {
-        _state.update { it.copy(isLoading = true) }
+        _state.update { it.copy(isLoading = true, isLoggedIn = null) }
 
         try {
             loginUser(email, password)
-            _state.update { it.copy(isLoading = false) }
+            // observeUser se encargará de actualizar isLoggedIn
         } catch (e: Exception) {
-            _state.update { it.copy(isLoading = false, error = e.message) }
+            _state.update { it.copy(isLoading = false, error = e.message, isLoggedIn = false) }
         }
     }
 
     fun register(nombre: String, email: String, password: String) = viewModelScope.launch {
-        _state.update { it.copy(isLoading = true) }
+        android.util.Log.d("AuthViewModel", "Iniciando registro para: $email")
+        _state.update { it.copy(isLoading = true, error = null) }
         try {
-            // Implementación real llamaría a un RegisterUserUseCase
-            // Por ahora simulamos con login
-            login(email, password)
+            registerUser(UsuarioCreateRequestDto(nombre, email, password))
+            android.util.Log.d("AuthViewModel", "Registro exitoso, iniciando login...")
+            // Auto login after registration
+            loginUser(email, password)
+            _state.update { it.copy(isLoading = false) }
+            android.util.Log.d("AuthViewModel", "Login post-registro completado.")
         } catch (e: Exception) {
+            android.util.Log.e("AuthViewModel", "Error en registro/login: ${e.message}", e)
             _state.update { it.copy(isLoading = false, error = e.message) }
         }
     }

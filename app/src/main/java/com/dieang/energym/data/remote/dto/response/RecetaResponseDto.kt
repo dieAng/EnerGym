@@ -10,6 +10,5 @@ data class RecetaResponseDto(
     val alergenos: String?,
     val imagenUrl: String?,
     val descripcion: String?,
-    val esPredisenada: Boolean,
-    val ingredientes: List<IngredienteResponseDto>
+    val esPredisenada: Boolean
 )

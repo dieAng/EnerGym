@@ -21,9 +21,7 @@ class RutinaRepositoryImpl(
 
         remote.forEach { rutina ->
             dao.insert(rutina.toEntity())
-            rutinaEjercicioDao.insertAll(
-                rutina.ejercicios.map { it.toEntity(rutina.id) }
-            )
+            // Los ejercicios se tendran que obtener en otra llamada
         }
     }
 
@@ -38,9 +36,6 @@ class RutinaRepositoryImpl(
         val entity = response.toEntity()
 
         dao.insert(entity)
-        rutinaEjercicioDao.insertAll(
-            response.ejercicios.map { it.toEntity(entity.id) }
-        )
 
         return entity.toDomain()
     }
@@ -50,4 +45,3 @@ class RutinaRepositoryImpl(
         dao.getById(id)?.let { dao.delete(it) }
     }
 }
-

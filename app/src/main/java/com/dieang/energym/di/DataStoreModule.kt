@@ -2,13 +2,11 @@ package com.dieang.energym.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.dataStoreFile
-import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
-import com.dieang.energym.data.local.datastore.DataStoreTokenProvider
-import com.dieang.energym.data.local.datastore.TokenProvider
+import androidx.datastore.preferences.preferencesDataStore
 import com.dieang.energym.data.local.datastore.UserDataStore
 import com.dieang.energym.data.local.datastore.UserStore
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,26 +14,19 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "energym_prefs")
+
 @Module
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
 
     @Provides
     @Singleton
-    fun providePreferencesDataStore(
-        @ApplicationContext context: Context
-    ): DataStore<Preferences> =
-        PreferenceDataStoreFactory.create {
-            context.dataStoreFile("app_prefs.preferences_pb")
-        }
+    fun providePreferencesDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
+        context.dataStore
 
-    @Provides @Singleton
-    fun provideTokenProvider(
-        dataStore: DataStore<Preferences>
-    ): TokenProvider = DataStoreTokenProvider(dataStore)
-
-    @Provides @Singleton
-    fun provideUserStore(
-        dataStore: DataStore<Preferences>
-    ): UserStore = UserDataStore(dataStore)
+    @Provides
+    @Singleton
+    fun provideUserStore(dataStore: DataStore<Preferences>, gson: Gson): UserStore =
+        UserDataStore(dataStore, gson)
 }
