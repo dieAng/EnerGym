@@ -82,10 +82,9 @@ fun NavGraphBuilder.sesionesNavGraph(navController: NavController) {
                         // que es el que maneja la sesión activa
                         SesionDetailScreen(
                             rutinaId = UUID.fromString(rutinaIdStr),
-                            usuarioId = UUID.randomUUID(), // Debería venir del VM
                             state = state,
-                            onStart = { _, _ -> },
-                            onRegisterSerie = { _, reps, _ -> vm.toggleSerie(reps) },
+                            onStart = { rid -> vm.startSesion(rid) },
+                            onRegisterSerie = { eid, reps, peso -> vm.registrarSerie(eid, reps, peso) },
                             onFinish = { vm.finishSesion() },
                             onBack = { navController.popBackStack() }
                         )

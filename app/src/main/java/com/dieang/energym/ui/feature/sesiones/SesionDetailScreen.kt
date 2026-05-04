@@ -33,15 +33,14 @@ import java.util.*
 @Composable
 fun SesionDetailScreen(
     rutinaId: UUID,
-    usuarioId: UUID,
     state: SesionState,
-    onStart: (UUID, UUID) -> Unit,
+    onStart: (UUID) -> Unit,
     onRegisterSerie: (UUID, Int, Float) -> Unit,
     onFinish: () -> Unit,
     onBack: () -> Unit
 ) {
     LaunchedEffect(rutinaId) {
-        onStart(rutinaId, usuarioId)
+        onStart(rutinaId)
     }
 
     Scaffold(
@@ -77,6 +76,13 @@ fun SesionDetailScreen(
             // Dashboard de Sesión Activa
             item {
                 Spacer(Modifier.height(20.dp))
+                if (state.error != null) {
+                    Text(
+                        text = state.error,
+                        color = Color.Red,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                }
                 SesionHeader(state.tiempoTranscurrido, state.energiaGenerada)
                 Spacer(Modifier.height(24.dp))
                 Text(
@@ -284,7 +290,6 @@ private fun SesionDetailScreenPreview() {
     EnerGymTheme {
         SesionDetailScreen(
             rutinaId = rutinaId,
-            usuarioId = userId,
             state = SesionState(
                 activeRutina = Rutina(id = rutinaId, usuarioId = userId, nombre = "Empuje (Push Day)", descripcion = "", nivel = "Intermedio", objetivo = "Fuerza"),
                 ejercicios = listOf(
@@ -300,7 +305,7 @@ private fun SesionDetailScreenPreview() {
                 tiempoTranscurrido = 1500,
                 energiaGenerada = 3.5
             ),
-            onStart = { _, _ -> },
+            onStart = { _ -> },
             onRegisterSerie = { _, _, _ -> },
             onFinish = {},
             onBack = {}
