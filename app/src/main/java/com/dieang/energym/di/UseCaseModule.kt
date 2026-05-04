@@ -72,8 +72,7 @@ object UseCaseModule {
     // POSTS
     @Provides fun provideGetPostsUseCase(repo: PostRepository) = GetPostsUseCase(repo)
     @Provides fun provideCreatePostUseCase(repo: PostRepository) = CreatePostUseCase(repo)
-    @Provides fun provideLikePostUseCase(repo: PostRepository) = LikePostUseCase(repo)
-    @Provides fun provideAddComentarioToPostUseCase(repo: PostRepository) = AddComentarioToPostUseCase(repo)
+    @Provides fun provideLikePostUseCase(repo: LikeRepository) = LikePostUseCase(repo)
     @Provides fun provideGetComentariosByPostUseCase(dao: ComentarioDao) = GetComentariosByPostUseCase(dao)
 
     // COMENTARIOS

@@ -90,4 +90,9 @@ object RepositoryModule {
     fun provideSerieRealizadaRepository(
         dao: SerieRealizadaDao
     ): SerieRealizadaRepository = SerieRealizadaRepositoryImpl(dao)
+
+    @Provides @Singleton
+    fun provideLikeRepository(
+        api: LikeApi
+    ): LikeRepository = LikeRepositoryImpl(api)
 }

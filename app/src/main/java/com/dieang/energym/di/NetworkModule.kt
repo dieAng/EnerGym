@@ -66,4 +66,7 @@ object NetworkModule {
 
     @Provides @Singleton
     fun provideMensajeApi(retrofit: Retrofit): MensajeApi = retrofit.create(MensajeApi::class.java)
+
+    @Provides @Singleton
+    fun provideLikeApi(retrofit: Retrofit): LikeApi = retrofit.create(LikeApi::class.java)
 }

@@ -1,11 +1,11 @@
 package com.dieang.energym.data.remote.api
 
+import com.dieang.energym.data.remote.dto.request.LikeRequestDto
+import retrofit2.http.Body
 import retrofit2.http.POST
-import retrofit2.http.Path
-import java.util.UUID
 
 interface LikeApi {
 
-    @POST("api/like/{postId}")
-    suspend fun likePost(@Path("postId") postId: UUID)
+    @POST("api/like")
+    suspend fun toggleLike(@Body request: LikeRequestDto)
 }
