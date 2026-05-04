@@ -7,7 +7,6 @@ import com.dieang.energym.domain.usecase.posts.CreatePostUseCase
 import com.dieang.energym.domain.usecase.posts.GetPostsUseCase
 import com.dieang.energym.domain.usecase.posts.LikePostUseCase
 import com.dieang.energym.domain.usecase.posts.GetComentariosByPostUseCase
-import com.dieang.energym.domain.usecase.posts.AddComentarioToPostUseCase
 import com.dieang.energym.domain.usecase.sesiones.GetSesionesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +22,6 @@ class PostViewModel @Inject constructor(
     private val createPost: CreatePostUseCase,
     private val likePostUseCase: LikePostUseCase,
     private val getComentariosByPost: GetComentariosByPostUseCase,
-    private val addComentarioUseCase: AddComentarioToPostUseCase,
     private val getSesiones: GetSesionesUseCase
 ) : ViewModel() {
 

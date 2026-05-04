@@ -54,12 +54,4 @@ class PostRepositoryImpl(
 
         return entity.toDomain()
     }
-
-    override suspend fun likePost(postId: UUID, usuarioId: UUID) {
-        api.likePost(postId)
-    }
-
-    override suspend fun addComentario(postId: UUID, request: ComentarioCreateRequestDto, usuarioId: UUID) {
-        api.addComentario(postId, request)
-    }
 }
