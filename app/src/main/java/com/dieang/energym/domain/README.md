@@ -1,19 +1,19 @@
 # Módulo Domain 🧠
 
-El módulo `domain` es el corazón de la aplicación. Contiene la lógica de negocio pura y es totalmente independiente de cualquier framework o librería externa de Android o infraestructura de datos.
+El módulo `domain` es el núcleo de la aplicación, conteniendo la lógica de negocio pura de forma independiente a la tecnología Android o de datos.
 
 ## 📦 Contenido
 
 ### [model](model/)
-Definición de las entidades de dominio (POJOs). Son clases de datos limpias que representan los conceptos principales de EnerGym: `Usuario`, `Rutina`, `Post`, `Receta`, etc.
+Clases de datos que representan las entidades del negocio (`Usuario`, `Receta`, `Rutina`, etc.).
 
 ### [repository](repository/)
-Contiene las interfaces de los repositorios. Estas interfaces definen el contrato de qué datos necesita el negocio, sin preocuparse de cómo se obtienen.
+Interfaces que definen el contrato de acceso a datos que el dominio requiere.
 
 ### [usecase](usecase/)
-Contiene las unidades de lógica de negocio específicas (Casos de Uso). Cada clase representa una única acción que el usuario puede realizar (ej. `LoginUserUseCase`, `GetPostsUseCase`).
+Casos de Uso que encapsulan reglas de negocio atómicas (ej: `LoginUserUseCase`, `RegisterUserUseCase`, `GetRutinaEjerciciosUseCase`).
 
 ## 📌 Responsabilidades
-- Definir el lenguaje común del negocio.
-- Contener las reglas de negocio y validaciones.
-- Actuar como puente entre la capa de Datos y la capa de UI.
+- Definir el modelo mental y funcional de la aplicación.
+- Validar las reglas del negocio.
+- Exponer la funcionalidad de la app a la capa de UI sin exponer detalles de implementación de datos.

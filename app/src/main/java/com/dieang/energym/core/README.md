@@ -8,9 +8,9 @@ El módulo `core` contiene utilidades transversales, extensiones y configuracion
 Contiene clases de utilidad generales y funciones de extensión para tipos básicos de Kotlin/Android que no pertenecen a una lógica de negocio específica.
 
 ### [network](network/)
-Lógica compartida relacionada con la conectividad y la infraestructura de red:
-- **Intercomunicadores**: Gestión de estados de red.
-- **Configuraciones base**: Clientes HTTP compartidos y manejo de errores comunes de red.
+Infraestructura de red simplificada:
+- **Configuración**: Definición de la URL base de Azure (`BASE_URL`) y tiempos de espera.
+- **Proveedores**: Configuración centralizada de `Retrofit` y `OkHttpClient`.
 
 ## 📌 Responsabilidades
 - Proporcionar herramientas comunes para reducir la duplicación de código.
