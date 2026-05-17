@@ -13,6 +13,7 @@ import com.dieang.energym.domain.usecase.rutinas.*
 import com.dieang.energym.domain.usecase.sesiones.*
 import com.dieang.energym.domain.usecase.usuario.*
 import com.dieang.energym.domain.usecase.comentarios.*
+import javax.inject.Singleton
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -82,4 +83,7 @@ object UseCaseModule {
     // MENSAJES
     @Provides fun provideGetConversacionUseCase(repo: MensajeRepository) = GetConversacionUseCase(repo)
     @Provides fun provideEnviarMensajeUseCase(repo: MensajeRepository) = EnviarMensajeUseCase(repo)
+    @Provides
+    @Singleton
+    fun provideGetRutinasFlowUseCase(repo: RutinaRepository): GetRutinasFlowUseCase = GetRutinasFlowUseCase(repo)
 }

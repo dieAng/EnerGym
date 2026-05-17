@@ -8,6 +8,8 @@ interface RutinaRepository {
 
     suspend fun syncRutinas()
 
+    fun getRutinasFlow(): kotlinx.coroutines.flow.Flow<List<Rutina>>
+
     suspend fun getRutinas(): List<Rutina>
 
     suspend fun getRutina(id: UUID): Rutina?
