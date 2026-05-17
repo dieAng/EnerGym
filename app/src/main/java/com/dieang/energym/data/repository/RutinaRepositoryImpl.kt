@@ -8,6 +8,7 @@ import com.dieang.energym.data.remote.api.RutinaApi
 import com.dieang.energym.data.remote.dto.request.RutinaCreateRequestDto
 import com.dieang.energym.domain.model.Rutina
 import com.dieang.energym.domain.repository.RutinaRepository
+import kotlinx.coroutines.flow.map
 import java.util.UUID
 
 class RutinaRepositoryImpl(
@@ -28,12 +29,15 @@ class RutinaRepositoryImpl(
     override suspend fun getRutinas(): List<Rutina> =
         dao.getAll().map { it.toDomain() }
 
+    override fun getRutinasFlow(): kotlinx.coroutines.flow.Flow<List<Rutina>> =
+        dao.getAllFlow().map { list -> list.map { it.toDomain() } }
+
     override suspend fun getRutina(id: UUID): Rutina? =
         dao.getById(id)?.toDomain()
 
     override suspend fun createRutina(request: RutinaCreateRequestDto): Rutina {
-        val response = api.createRutina(request)
-        val entity = response.toEntity()
+        // Desconectado de la API: Guardamos directamente en el DAO local
+        val entity = request.toEntity(UUID.randomUUID())
 
         dao.insert(entity)
 

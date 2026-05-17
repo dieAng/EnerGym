@@ -29,7 +29,8 @@ import com.dieang.energym.ui.theme.EnerGymTheme
 @Composable
 fun RutinasScreen(
     state: RutinaState,
-    onNavigateDetail: (UUID) -> Unit
+    onNavigateDetail: (UUID) -> Unit,
+    onNavigateCreate: () -> Unit
 ) {
     var selectedTab by remember { mutableStateOf(0) }
     val tabs = listOf("Mis Rutinas", "Recomendadas", "Historial")
@@ -51,7 +52,7 @@ fun RutinasScreen(
                         color = EnerGymTextPrimary
                     )
                     FilledIconButton(
-                        onClick = { },
+                        onClick = onNavigateCreate,
                         colors = IconButtonDefaults.filledIconButtonColors(containerColor = EnerGymBlue),
                         modifier = Modifier.size(32.dp),
                         shape = RoundedCornerShape(8.dp)
@@ -91,7 +92,7 @@ fun RutinasScreen(
             // 3. Botón Crear Nueva Rutina (Estilo Dash)
             item {
                 Surface(
-                    onClick = { },
+                    onClick = onNavigateCreate,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(60.dp),
@@ -235,7 +236,8 @@ private fun RutinasScreenPreview() {
                     )
                 )
             ),
-            onNavigateDetail = {}
+            onNavigateDetail = {},
+            onNavigateCreate = {}
         )
     }
 }

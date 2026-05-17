@@ -23,6 +23,7 @@ object Routes {
     // RUTINAS
     const val RUTINAS = "rutinas"
     const val RUTINA_DETAIL = "rutina/{id}"
+    const val CREATE_RUTINA = "create_rutina"
 
     // SESIONES
     const val SESIONES = "sesiones"

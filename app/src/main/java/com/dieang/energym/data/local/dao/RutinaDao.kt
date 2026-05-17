@@ -12,6 +12,9 @@ import java.util.UUID
 interface RutinaDao {
 
     @Query("SELECT * FROM rutina")
+    fun getAllFlow(): kotlinx.coroutines.flow.Flow<List<RutinaEntity>>
+
+    @Query("SELECT * FROM rutina")
     suspend fun getAll(): List<RutinaEntity>
 
     @Query("SELECT * FROM rutina WHERE id = :id")

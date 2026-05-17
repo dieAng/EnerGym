@@ -15,7 +15,8 @@ import kotlinx.coroutines.flow.map
 class AuthRepositoryImpl(
     private val api: AuthApi,
     private val usuarioApi: UsuarioApi,
-    private val userStore: UserStore
+    private val userStore: UserStore,
+    private val usuarioDao: com.dieang.energym.data.local.dao.UsuarioDao
 ) : AuthRepository {
 
     override suspend fun login(email: String, password: String): UsuarioEntity {
@@ -34,6 +35,7 @@ class AuthRepositoryImpl(
             rol = response.rol
         )
 
+        usuarioDao.insert(usuario)
         userStore.saveUser(usuario)
 
         return usuario
@@ -42,6 +44,7 @@ class AuthRepositoryImpl(
     override suspend fun register(request: UsuarioCreateRequestDto): UsuarioEntity {
         val response = usuarioApi.createUsuario(request)
         val entity = response.toEntity()
+        usuarioDao.insert(entity)
         userStore.saveUser(entity)
         return entity
     }

@@ -6,9 +6,14 @@ import com.dieang.energym.domain.usecase.rutinas.GetRutinaEjerciciosUseCase
 import com.dieang.energym.domain.usecase.rutinas.GetRutinaUseCase
 import com.dieang.energym.domain.usecase.rutinas.GetRutinasUseCase
 import com.dieang.energym.domain.usecase.ejercicios.GetEjercicioUseCase
+import com.dieang.energym.domain.usecase.auth.GetLoggedUserUseCase
+import com.dieang.energym.domain.usecase.rutinas.CreateRutinaUseCase
+import com.dieang.energym.domain.usecase.rutinas.GetRutinasFlowUseCase
+import com.dieang.energym.data.remote.dto.request.RutinaCreateRequestDto
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -17,27 +22,29 @@ import javax.inject.Inject
 @HiltViewModel
 class RutinaViewModel @Inject constructor(
     private val getRutinas: GetRutinasUseCase,
+    private val getRutinasFlow: GetRutinasFlowUseCase,
     private val getRutina: GetRutinaUseCase,
     private val getRutinaEjercicios: GetRutinaEjerciciosUseCase,
-    private val getEjercicio: GetEjercicioUseCase
+    private val getEjercicio: GetEjercicioUseCase,
+    private val getLoggedUser: GetLoggedUserUseCase,
+    private val createRutinaUseCase: CreateRutinaUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(RutinaState())
     val state = _state.asStateFlow()
 
     init {
-        loadTrainingData()
+        observeTrainingData()
     }
 
-    fun loadTrainingData() = viewModelScope.launch {
+    private fun observeTrainingData() = viewModelScope.launch {
         _state.update { it.copy(isLoading = true) }
-        try {
-            val dbRutinas = getRutinas()
+        getRutinasFlow().collect { dbRutinas ->
             val rutinasUI = dbRutinas.map {
                 RutinaUI(
                     id = it.id,
                     nombre = it.nombre,
-                    numEjercicios = 0, // Podríamos contar ejercicios si quisiéramos
+                    numEjercicios = 0,
                     ultimaVez = "Hoy",
                     nivel = it.nivel ?: "Intermedio",
                     objetivo = it.objetivo ?: "Fuerza",
@@ -49,6 +56,33 @@ class RutinaViewModel @Inject constructor(
                     isLoading = false,
                     rutinas = rutinasUI
                 )
+            }
+        }
+    }
+
+    fun createRutina(
+        nombre: String,
+        descripcion: String,
+        nivel: String,
+        objetivo: String,
+        onSuccess: () -> Unit
+    ) = viewModelScope.launch {
+        _state.update { it.copy(isLoading = true) }
+        try {
+            val user = getLoggedUser().first()
+            if (user != null) {
+                val request = RutinaCreateRequestDto(
+                    usuarioId = user.id,
+                    nombre = nombre,
+                    descripcion = descripcion,
+                    nivel = nivel,
+                    objetivo = objetivo,
+                    esPredisenada = false
+                )
+                createRutinaUseCase(request)
+                onSuccess()
+            } else {
+                _state.update { it.copy(isLoading = false, error = "Usuario no logueado") }
             }
         } catch (e: Exception) {
             _state.update { it.copy(isLoading = false, error = e.message) }

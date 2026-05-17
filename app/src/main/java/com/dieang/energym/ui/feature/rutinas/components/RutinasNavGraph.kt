@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.dieang.energym.ui.feature.rutinas.RutinaDetailScreen
+import com.dieang.energym.ui.feature.rutinas.CreateRutinaScreen
 import com.dieang.energym.ui.feature.rutinas.RutinaViewModel
 import com.dieang.energym.ui.feature.rutinas.RutinasScreen
 import com.dieang.energym.ui.navigation.AuthGuard
@@ -28,7 +29,28 @@ fun NavGraphBuilder.rutinasNavGraph(navController: NavController) {
                         state = vm.state.collectAsState().value,
                         onNavigateDetail = { id ->
                             navController.navigate(Routes.RUTINA_DETAIL.replace("{id}", id.toString()))
+                        },
+                        onNavigateCreate = {
+                            navController.navigate(Routes.CREATE_RUTINA)
                         }
+                    )
+                },
+                onNotLoggedIn = { navController.navigate(Routes.LOGIN) }
+            )
+        }
+
+        composable(Routes.CREATE_RUTINA) {
+            AuthGuard(
+                content = {
+                    val vm: RutinaViewModel = hiltViewModel()
+                    CreateRutinaScreen(
+                        state = vm.state.collectAsState().value,
+                        onCreate = { nombre, desc, nivel, obj ->
+                            vm.createRutina(nombre, desc, nivel, obj) {
+                                navController.popBackStack()
+                            }
+                        },
+                        onBack = { navController.popBackStack() }
                     )
                 },
                 onNotLoggedIn = { navController.navigate(Routes.LOGIN) }
